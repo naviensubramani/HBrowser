@@ -18,7 +18,7 @@ Run
 
 >```$ mvn clean```
 
->```$ mvn compile exec:java -Dexec.mainClass=com.hlabs.hbrowse.App```
+>```$ mvn compile exec:java -Dexec.mainClass=com.hlabs.hbrowse.handler.App```
 
 Browse
 ============
