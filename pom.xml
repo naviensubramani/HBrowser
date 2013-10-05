@@ -35,7 +35,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<!--mainClass>com.hlabs.hbrowse.HBaseCRUD</mainClass -->
-							<mainClass>com.hlabs.hbrowse.App</mainClass>
+							<mainClass>com.hlabs.hbrowse.handler.App</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

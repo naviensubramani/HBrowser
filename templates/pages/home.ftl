@@ -51,6 +51,7 @@
 
       var counter = 2;
       var cfobj = {};
+      get_conn_config();
     
       $("#addButton").click(function () {
         
@@ -92,6 +93,46 @@
           cfobj['column_family'] = columnF_vals;
       }      
     
+    function set_conn_config(conObj)
+    {
+      if (typeof(localStorage) == 'undefined' ) {
+        alert('Your browser does not support HTML5 localStorage. Try upgrading.');
+      } else {
+        try {
+          localStorage.removeItem("conn_config"); //deletes the matching item from the database
+          localStorage.setItem('conn_config', JSON.stringify(conObj)); //saves to the database, "key", "value"
+          alert('Successfully Saved!');
+        } catch (e) {
+           if (e == QUOTA_EXCEEDED_ERR) {
+             alert('Quota exceeded!'); //data wasn't successfully saved due to quota exceed so throw an error
+          }
+        }
+      }      
+    }      
+
+    function get_conn_config()
+    {
+      if (localStorage.getItem("conn_config") === null) {
+          alert('Please enter Connection details!');
+      }
+      else
+      {
+        var confObj = JSON.parse(localStorage.getItem('conn_config'));
+        console.log('confObj: ', confObj);  
+        $("#zkQuorum").val(confObj.zkQuorum);
+        $("#zkPort").val(confObj.zkPort);
+      }      
+    }
+
+
+    function get_config()
+    {
+      var confObj = {};
+      confObj['zkQuorum'] = $("#zkQuorum").val();
+      confObj['zkPort'] = $("#zkPort").val();
+      return confObj;
+    }    
+
   $("#runquery").click(function(){
   qu = $("#query").val()
   get_results(qu,'None');
@@ -99,12 +140,26 @@
 
 
   $("#create").click(function(){
-  tname = $("#table_name").val()
-  cfobj['table_name'] = tname;
+  cfobj['table_name'] = $("#table_name").val();
+  cfobj['conn'] = get_config();
   get_form_values();
-  console.log(cfobj);
-  create_table(tname,cfobj);
+  create_table(cfobj);
   });  
+
+  $("#save").click(function(){
+    var confObj = get_config();
+    set_conn_config(confObj);
+    var retrievedObject = localStorage.getItem('conn_config');
+    console.log('retrievedObject: ', JSON.parse(retrievedObject));  
+  }); 
+
+  $("#clear_config").click(function(){
+    localStorage.removeItem("conn_config"); 
+    $("#zkQuorum").val('');
+    $("#zkPort").val('');
+
+    console.log('Connection Configuration cleared !');  
+  });     
 
     
   });
@@ -126,14 +181,13 @@ function get_results(qus,bqus)
 
 }
 
-function create_table(tname,cFamily)
+function create_table(dataObj)
 {
-  console.log(JSON.stringify(cFamily));
+  console.log(JSON.stringify(dataObj));
   $("#create").button('loading')
   $.post("/createTable",
   {
-    tname: tname,
-    cFamily: JSON.stringify(cFamily)
+    data: JSON.stringify(dataObj)
   },
   function(data,status){
     console.log(status);
@@ -177,7 +231,7 @@ function create_table(tname,cFamily)
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Tables</li>
-              <li><a href="#">Table 1 # <i class="icon-chevron-right"></i></a></li>
+              <li><a href="#">Table 1 <i class="icon-chevron-right"></i></a></li>
               <li><a href="#">Table 2<i class="icon-chevron-right"></i></a></li>
             </ul>
           </div><!--/.well -->
@@ -190,11 +244,24 @@ function create_table(tname,cFamily)
             <!--section unit-->
             <div class="tabbable"> <!-- Only required for left/right tabs -->
               <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab1" data-toggle="tab">Query</a></li>
-                <li><a href="#tab2" data-toggle="tab">Create</a></li>
+                <li class="active"><a href="#tab1" data-toggle="tab">Config</a></li>
+                <li><a href="#tab2" data-toggle="tab">Query</a></li>
+                <li><a href="#tab3" data-toggle="tab">Create</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
+                    <div>
+                      <div>
+                          <div>hbase.zookeeper.quorum : <input type="text" id="zkQuorum" placeholder="localhost"></div>
+                          <div>hbase.zookeeper.clientPort : <input type="text" id="zkPort" placeholder="2181" ></div>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary" id="save" >Save</button>
+                    <button class="btn btn-primary" id="clear_config" >Clear</button>
+                  </div>                    
+
+
+                <div class="tab-pane" id="tab2">
 
                   <!--Query Contents-->
                   <div class="modal-body">
@@ -223,7 +290,7 @@ function create_table(tname,cFamily)
 
 
                 </div>
-                <div class="tab-pane" id="tab2">
+                <div class="tab-pane" id="tab3">
                   <div>Table Name : <input type="text" id="table_name"></div>
                     <div id="TextBoxesGroup">
                       <div id="TextBoxDiv1">
@@ -250,7 +317,7 @@ function create_table(tname,cFamily)
       <hr>
 
       <footer>
-        <p>© Company 2013</p>
+        <p>© Hbrowse 2013</p>
       </footer>
 
     </div>
