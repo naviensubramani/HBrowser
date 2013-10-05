@@ -57,5 +57,23 @@ public class HBaseController {
     }
 
 
+    public static void drop_Table(String tableName) {
+        System.out.println("Dropping table ......"+tableName);
+        try {
+            HBaseAdmin admin = new HBaseAdmin(configuration);
+            admin.disableTable(tableName);
+            admin.deleteTable(tableName);
+        } catch (MasterNotRunningException e) {
+            e.printStackTrace();
+        } catch (ZooKeeperConnectionException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(" Successfully Dropped table ......"+tableName);
+
+    }
+
+
 }
 

@@ -102,6 +102,38 @@ public class App {
             }
         });
 
+
+        post(new Route("/dropTable") {
+            @Override
+            public Object handle(Request request, Response response) {
+                String data = request.queryParams("data");
+
+                JSONParser parser = new JSONParser();
+                try {
+
+                    Object obj = parser.parse(data);
+
+                    JSONObject dataObject = (JSONObject) obj;
+
+                    JSONObject conn = (JSONObject) dataObject.get("conn");
+                    AppConfig appCfg = configureHBase(conn);
+
+                    String tableName = (String) dataObject.get("table_name");
+                    System.out.println(tableName);
+
+                    HBaseController hr = new HBaseController();
+
+                    hr.drop_Table(tableName);
+
+                    return "Successfully Deleted table "+tableName;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return "Unable to drop table";
+                }
+            }
+        });
+
+
     }
 
     private static Configuration configureFreemarker() {

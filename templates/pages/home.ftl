@@ -153,6 +153,13 @@
     console.log('retrievedObject: ', JSON.parse(retrievedObject));  
   }); 
 
+  $("#drop").click(function(){
+    var cfobj = {};
+    cfobj['table_name'] = $("#dropTableName").val();
+    cfobj['conn'] = get_config();
+    drop_table(cfobj);
+   });   
+
   $("#clear_config").click(function(){
     localStorage.removeItem("conn_config"); 
     $("#zkQuorum").val('');
@@ -181,17 +188,33 @@ function get_results(qus,bqus)
 
 }
 
+function drop_table(dataObj)
+{
+  $("#drop").button('loading');
+  $.post("/dropTable",
+  {
+    data: JSON.stringify(dataObj)
+  },
+  function(data,status){
+    console.log(status);
+    alert("Data: " + data + "\nStatus: " + status);
+    $("#drop").button('reset');
+  });
+
+}
+
+
 function create_table(dataObj)
 {
   console.log(JSON.stringify(dataObj));
-  $("#create").button('loading')
+  $("#create").button('loading');
   $.post("/createTable",
   {
     data: JSON.stringify(dataObj)
   },
   function(data,status){
     console.log(status);
-    $("#create").button('reset')
+    $("#create").button('reset');
     alert("Data: " + data + "\nStatus: " + status);
   });
 
@@ -247,6 +270,7 @@ function create_table(dataObj)
                 <li class="active"><a href="#tab1" data-toggle="tab">Config</a></li>
                 <li><a href="#tab2" data-toggle="tab">Query</a></li>
                 <li><a href="#tab3" data-toggle="tab">Create</a></li>
+                <li><a href="#tab4" data-toggle="tab">Drop</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
@@ -257,7 +281,7 @@ function create_table(dataObj)
                       </div>
                     </div>
                     <button class="btn btn-primary" id="save" >Save</button>
-                    <button class="btn btn-primary" id="clear_config" >Clear</button>
+                    <button class="btn" id="clear_config" >Clear</button>
                   </div>                    
 
 
@@ -287,8 +311,6 @@ function create_table(dataObj)
 
                   </div>
                   <!--Query Contents end-->
-
-
                 </div>
                 <div class="tab-pane" id="tab3">
                   <div>Table Name : <input type="text" id="table_name"></div>
@@ -299,7 +321,17 @@ function create_table(dataObj)
                     </div>
                     <input type="button" value="Add" id="addButton">
                     <input type="button" value="Remove" id="removeButton">
-                    <button class="btn btn-primary" id="create" >Create</button></div>                    
+                    <button class="btn btn-primary" id="create" >Create</button>
+                </div> 
+
+                <div class="tab-pane" id="tab4">
+                    <div>
+                      <div>
+                          <div>Table Name : <input type="text" id="dropTableName" placeholder="student"></div>
+                      </div>
+                    </div>
+                    <button class="btn btn-danger" id="drop" >Drop</button>
+                  </div>                                         
                 </div>
               </div>
             </div>          
