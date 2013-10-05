@@ -177,7 +177,7 @@ function create_table(tname,cFamily)
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Tables</li>
-              <li><a href="#">Table 1 <i class="icon-chevron-right"></i></a></li>
+              <li><a href="#">Table 1 # <i class="icon-chevron-right"></i></a></li>
               <li><a href="#">Table 2<i class="icon-chevron-right"></i></a></li>
             </ul>
           </div><!--/.well -->
