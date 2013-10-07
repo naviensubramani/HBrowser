@@ -8,12 +8,13 @@ package com.hlabs.hbrowse.handler;
  * To change this template use File | Settings | File Templates.
  */
 
+import com.hlabs.hbrowse.config.AppConfig;
+import com.hlabs.hbrowse.controller.HBaseController;
 import freemarker.template.Configuration;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,9 +25,6 @@ import java.io.StringWriter;
 import java.util.HashMap;
 
 import static spark.Spark.*;
-
-import com.hlabs.hbrowse.controller.HBaseController;
-import com.hlabs.hbrowse.config.AppConfig;
 
 
 
@@ -61,12 +59,28 @@ public class App {
             }
         });
 
-        post(new Route("/get_result") {
+        post(new Route("/listTables") {
             @Override
             public Object handle(Request request, Response response) {
-                String userQuery = request.queryParams("qu");
+                String data = request.queryParams("data");
 
-                return "Hello World: " +  userQuery;
+                JSONParser parser = new JSONParser();
+                try {
+
+                    Object obj = parser.parse(data);
+
+                    JSONObject dataObject = (JSONObject) obj;
+
+                    JSONObject conn = (JSONObject) dataObject.get("conn");
+                    AppConfig appCfg = configureHBase(conn);
+
+                    HBaseController hr = new HBaseController();
+
+                    return  hr.list_Tables();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return "Unable to list tables ";
+                }
             }
         });
 

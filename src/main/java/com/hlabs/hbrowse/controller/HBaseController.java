@@ -1,18 +1,14 @@
 package com.hlabs.hbrowse.controller;
 
-import java.io.IOException;
-import java.util.Iterator;
-
+import com.hlabs.hbrowse.config.AppConfig;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
-import org.apache.hadoop.hbase.MasterNotRunningException;
-import org.apache.hadoop.hbase.ZooKeeperConnectionException;
+import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.json.simple.JSONArray;
 
-import com.hlabs.hbrowse.config.AppConfig;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class HBaseController {
 	
@@ -72,6 +68,25 @@ public class HBaseController {
         }
         System.out.println(" Successfully Dropped table ......"+tableName);
 
+    }
+
+    public static String list_Tables() {
+        System.out.println("List table ......");
+        String tableList = "";
+        try {
+            HBaseAdmin admin = new HBaseAdmin(configuration);
+            tableList =  Arrays.toString(admin.listTables());
+//            admin.listTables();
+            System.out.println(tableList);
+        } catch (MasterNotRunningException e) {
+            e.printStackTrace();
+        } catch (ZooKeeperConnectionException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(" Successfully Listed table ......");
+        return (tableList);
     }
 
 
