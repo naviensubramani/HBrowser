@@ -89,6 +89,26 @@ public class HBaseController {
         return (tableList);
     }
 
+    public static String[] getAllTableNames() {
+
+        String[] tblnames = null;
+        try {
+            HBaseAdmin admin = new HBaseAdmin(configuration);
+            HTableDescriptor[] tables = admin.listTables();
+            tblnames = new String[tables.length];
+            int i = 0;
+            for (HTableDescriptor tbl : tables) {
+                tblnames[i] = tbl.getNameAsString();
+                i++;
+            }
+        }
+        catch (IOException e) {
+            System.out.print(e);
+        }
+
+        return tblnames;
+    }
+
 
 }
 

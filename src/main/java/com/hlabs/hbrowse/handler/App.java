@@ -22,6 +22,7 @@ import spark.Route;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static spark.Spark.*;
@@ -77,6 +78,38 @@ public class App {
                     HBaseController hr = new HBaseController();
 
                     return  hr.list_Tables();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return "Unable to list tables ";
+                }
+            }
+        });
+
+
+        post(new Route("/listTablesNames") {
+            @Override
+            public Object handle(Request request, Response response) {
+                String data = request.queryParams("data");
+
+                JSONParser parser = new JSONParser();
+
+                try {
+
+                    Object obj = parser.parse(data);
+
+                    JSONObject dataObject = (JSONObject) obj;
+
+                    JSONObject conn = (JSONObject) dataObject.get("conn");
+                    AppConfig appCfg = configureHBase(conn);
+
+                    HBaseController hr = new HBaseController();
+
+                    String tableNameList = null;
+                    tableNameList =  Arrays.toString(hr.getAllTableNames());
+
+                    System.out.println(tableNameList);
+
+                    return  tableNameList;
                 } catch (ParseException e) {
                     e.printStackTrace();
                     return "Unable to list tables ";
