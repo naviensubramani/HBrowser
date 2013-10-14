@@ -52,6 +52,9 @@
       var counter = 2;
       var cfobj = {};
       get_conn_config();
+
+      cfobj['conn'] = get_config();
+      getTableNames(cfobj);
     
       $("#addButton").click(function () {
         
@@ -199,6 +202,8 @@ function drop_table(dataObj)
     console.log(status);
     alert("Data: " + data + "\nStatus: " + status);
     $("#drop").button('reset');
+    $('#TableList').html('');
+    getTableNames(dataObj);    
   });
 
 }
@@ -216,9 +221,34 @@ function create_table(dataObj)
     console.log(status);
     $("#create").button('reset');
     alert("Data: " + data + "\nStatus: " + status);
+    $('#TableList').html('');
+    getTableNames(dataObj);        
   });
 
 }
+
+
+function getTableNames(dataObj)
+{
+  console.log(JSON.stringify(dataObj));
+
+  $.post("/listTablesNames",
+  {
+    data: JSON.stringify(dataObj)
+  },
+  function(data,status){
+    var tnm = JSON.parse(data);
+    console.log(tnm);
+    for (i=0;i<tnm['TableNames'].length;i++)
+    {
+      $( "#TableList" ).append( "<li><a href='#''>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a></li>" );
+    }
+   
+    // alert("Data: " + data + "\nStatus: " + status);
+  });
+
+}
+
 
 
 </script>
@@ -254,8 +284,8 @@ function create_table(dataObj)
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Tables</li>
-              <li><a href="#">Table 1 <i class="icon-chevron-right"></i></a></li>
-              <li><a href="#">Table 2<i class="icon-chevron-right"></i></a></li>
+            </ul>
+            <ul class="nav nav-list" id="TableList">
             </ul>
           </div><!--/.well -->
         </div><!--/span-->

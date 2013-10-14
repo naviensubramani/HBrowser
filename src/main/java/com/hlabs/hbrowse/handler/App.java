@@ -104,12 +104,9 @@ public class App {
 
                     HBaseController hr = new HBaseController();
 
-                    String tableNameList = null;
-                    tableNameList =  Arrays.toString(hr.getAllTableNames());
+                    JSONObject tObj = hr.getAllTableNames();
 
-                    System.out.println(tableNameList);
-
-                    return  tableNameList;
+                    return  tObj;
                 } catch (ParseException e) {
                     e.printStackTrace();
                     return "Unable to list tables ";

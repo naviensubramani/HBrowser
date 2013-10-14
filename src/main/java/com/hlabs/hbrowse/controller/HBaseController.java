@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -89,24 +90,26 @@ public class HBaseController {
         return (tableList);
     }
 
-    public static String[] getAllTableNames() {
+    public static JSONObject getAllTableNames() {
 
-        String[] tblnames = null;
+        JSONObject tblObj = new JSONObject();
+        JSONArray tblAry = new JSONArray();
+
         try {
             HBaseAdmin admin = new HBaseAdmin(configuration);
             HTableDescriptor[] tables = admin.listTables();
-            tblnames = new String[tables.length];
             int i = 0;
             for (HTableDescriptor tbl : tables) {
-                tblnames[i] = tbl.getNameAsString();
+                tblAry.add(tbl.getNameAsString());
                 i++;
             }
         }
         catch (IOException e) {
             System.out.print(e);
         }
-
-        return tblnames;
+        System.out.println(tblAry);
+        tblObj.put("TableNames",tblAry);
+        return tblObj;
     }
 
 
