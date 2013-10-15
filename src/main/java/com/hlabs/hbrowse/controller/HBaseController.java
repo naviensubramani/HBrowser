@@ -4,12 +4,15 @@ import com.hlabs.hbrowse.config.AppConfig;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Set;
 
 public class HBaseController {
 	
@@ -110,6 +113,33 @@ public class HBaseController {
         System.out.println(tblAry);
         tblObj.put("TableNames",tblAry);
         return tblObj;
+    }
+
+    public String[] getColFamilies(String TableName) {
+        String[] families = null;
+        try {
+            HTable userTable = new HTable(configuration, TableName);
+
+
+            Set<byte[]> familySet = userTable.getTableDescriptor().getFamiliesKeys();
+
+            Object[] allFamiles = familySet.toArray();
+            families = new String[allFamiles.length];
+            int i = 0;
+            for (Object family2 : allFamiles) {
+                byte[] family = (byte[]) family2;
+                // userTable.getTableDescriptor().getFamily(family).getMaxVersions();
+                families[i] = Bytes.toString(family);
+                System.out.println(families[i]);
+                i++;
+            }
+
+        }
+        catch (IOException e) {
+            System.out.println("Exception :" + e);
+        }
+
+        return families;
     }
 
 
