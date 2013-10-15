@@ -53,8 +53,13 @@
       var cfobj = {};
       get_conn_config();
 
-      cfobj['conn'] = get_config();
-      getTableNames(cfobj);
+
+      if (localStorage.getItem("conn_config") != null) {
+          console.log('Querying Database Tables');
+          cfobj['conn'] = get_config();
+          getTableNames(cfobj);
+      }  
+
     
       $("#addButton").click(function () {
         
@@ -150,10 +155,13 @@
   });  
 
   $("#save").click(function(){
+    var cfobj = {};
     var confObj = get_config();
     set_conn_config(confObj);
     var retrievedObject = localStorage.getItem('conn_config');
-    console.log('retrievedObject: ', JSON.parse(retrievedObject));  
+    console.log('retrievedObject: ', JSON.parse(retrievedObject)); 
+    cfobj['conn'] = get_config();
+    getTableNames(cfobj);     
   }); 
 
   $("#drop").click(function(){
