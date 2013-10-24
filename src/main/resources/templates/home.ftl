@@ -142,9 +142,10 @@
     }    
 
   $("#scan").click(function(){
-  cf = $("#sc_cf").val()
-  console.log(cf);
-
+    tNm = $("#tbl_list>ul>li.active");
+    cf = $("#sc_cf").val()
+    console.log(cf);
+    console.log(tNm.text());
   });
 
 
@@ -180,12 +181,29 @@
     console.log('Connection Configuration cleared !');  
   });     
 
-    
+$('#tbl_list li a').click(function(e) {
+  var $this = $(this);
+  if (!$this.hasClass('active')) {
+    $this.addClass('active');
+  }
+  e.preventDefault();
+});  
+
+   
   });
 </script> 
 
 
 <script>
+function activate(caller)
+{
+  $(caller).parent().find('li').removeClass("active");
+  var $this = $(caller);
+  if (!$this.hasClass('active')) {
+    $this.addClass('active');
+  }
+}
+
 function get_results(qus,bqus)
 {
   $.post("/get_result",
@@ -250,7 +268,7 @@ function getTableNames(dataObj)
     console.log(tnm);
     for (i=0;i<tnm['TableNames'].length;i++)
     {
-      $( "#TableList" ).append( "<li><a href='#''>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a></li>" );
+      $( "#TableList" ).append( "<li onclick='activate(this)'><a href='#''>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a></li>" );
     }
    
     // alert("Data: " + data + "\nStatus: " + status);
@@ -290,7 +308,7 @@ function getTableNames(dataObj)
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span2">
-          <div class="well sidebar-nav">
+          <div class="well sidebar-nav" id="tbl_list">
             <ul class="nav nav-list">
               <li class="nav-header">Tables</li>
             </ul>
