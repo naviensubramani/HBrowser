@@ -189,6 +189,44 @@ public class App {
                 }
             }
         });
+
+
+        post(new Route("/scanTable") {
+            @Override
+            public Object handle(Request request, Response response) {
+                String data = request.queryParams("data");
+
+                JSONParser parser = new JSONParser();
+                try {
+
+                    Object obj = parser.parse(data);
+
+                    JSONObject dataObject = (JSONObject) obj;
+
+                    JSONObject conn = (JSONObject) dataObject.get("conn");
+                    AppConfig appCfg = configureHBase(conn);
+
+                    String tableName = (String) dataObject.get("table_name");
+                    System.out.println(tableName);
+
+                    String columnFamily = (String) dataObject.get("column_family");
+                    System.out.println(columnFamily);
+
+                    HBaseController hr = new HBaseController();
+
+                    return hr.scanTables(tableName,columnFamily);
+
+                }
+                catch (ParseException e) {
+                    e.printStackTrace();
+                    return "Unable to scan table - Parse Error";
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    return "Unable to scan table";
+                }
+            }
+        });
     }
 
 
