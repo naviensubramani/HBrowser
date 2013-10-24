@@ -11,6 +11,9 @@ package com.hlabs.hbrowse.handler;
 import com.hlabs.hbrowse.config.AppConfig;
 import com.hlabs.hbrowse.controller.HBaseController;
 import freemarker.template.Configuration;
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,73 +22,83 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Arrays;
+import java.io.Writer;
 import java.util.HashMap;
 
 import static spark.Spark.*;
 
-
-
+/**
+ *
+ */
 public class App {
+    private final Configuration cfg;
 
     public static void main(String[] args) throws IOException {
-    	
-        setPort(8080);
-        final Configuration cfg = configureFreemarker();
-        
+        new App();
+    }
 
-        get(new Route("/") {
+    public App() throws IOException {
+        cfg = createFreemarkerConfiguration();
+        setPort(8082);
+        initializeRoutes();
+    }
+
+    abstract class FreemarkerBasedRoute extends Route {
+        final Template template;
+
+        /**
+         * Constructor
+         *
+         * @param path The route path which is used for matching. (e.g. /login, users/:name)
+         */
+        protected FreemarkerBasedRoute(final String path, final String templateName) throws IOException {
+            super(path);
+            template = cfg.getTemplate(templateName);
+        }
+
+        @Override
+        public Object handle(Request request, Response response) {
+            StringWriter writer = new StringWriter();
+            try {
+                doHandle(request, response, writer);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.redirect("/internal_error");
+            }
+            return writer;
+        }
+
+        protected abstract void doHandle(final Request request, final Response response, final Writer writer)
+                throws IOException, TemplateException;
+
+    }
+
+    private void initializeRoutes() throws IOException {
+        // this is the HBrowser home page
+        get(new FreemarkerBasedRoute("/", "home.ftl") {
             @Override
-            public Object handle(Request request, Response response) {
+            public void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
+                HashMap<String, String> root = new HashMap<String, String>();
 
-                //freemarker needs a Writer to render the final Html code
-                StringWriter sw = new StringWriter();
-
-                //params used in the template files
-                //passed the sublayout filename and the title page
-                HashMap params = getPageParams("home.ftl", "Home page");
-                try {
-
-                    //template engine processing
-                    cfg.getTemplate("main.ftl").process(params, sw);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                //return the rendered html code
-                return sw.toString();
+                template.process(root, writer);
             }
         });
 
-        post(new Route("/listTables") {
+        // used to process internal errors
+        get(new FreemarkerBasedRoute("/internal_error", "error_template.ftl") {
             @Override
-            public Object handle(Request request, Response response) {
-                String data = request.queryParams("data");
+            protected void doHandle(Request request, Response response, Writer writer) throws IOException, TemplateException {
+                SimpleHash root = new SimpleHash();
 
-                JSONParser parser = new JSONParser();
-                try {
-
-                    Object obj = parser.parse(data);
-
-                    JSONObject dataObject = (JSONObject) obj;
-
-                    JSONObject conn = (JSONObject) dataObject.get("conn");
-                    AppConfig appCfg = configureHBase(conn);
-
-                    HBaseController hr = new HBaseController();
-
-                    return  hr.list_Tables();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return "Unable to list tables ";
-                }
+                root.put("error", "System has encountered an error.");
+                template.process(root, writer);
             }
         });
 
 
+        // used to query user tables
         post(new Route("/listTablesNames") {
             @Override
             public Object handle(Request request, Response response) {
@@ -176,22 +189,15 @@ public class App {
                 }
             }
         });
-
-
     }
 
-    private static Configuration configureFreemarker() {
-        Configuration cfg = new Configuration();
 
-        try {
-
-            //indicates the templates directory to freemarker
-            cfg.setDirectoryForTemplateLoading(new File("templates"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return cfg;
+    private Configuration createFreemarkerConfiguration() {
+        Configuration retVal = new Configuration();
+        retVal.setClassForTemplateLoading(App.class, "/templates");
+        return retVal;
     }
+
 
     private static AppConfig configureHBase(JSONObject conn) {
         AppConfig appConfig = new AppConfig();
@@ -207,18 +213,4 @@ public class App {
         }
         return appConfig;
     }
-
-
-
-    //uses to create a Hashmap with specific keys
-    private static HashMap getPageParams(String page, String title) {
-        HashMap params = new HashMap();
-
-        //page and title from main.ftl
-        params.put("page", "pages/" + page);
-        params.put("title", title);
-        return params;
-    }
-
 }
-
