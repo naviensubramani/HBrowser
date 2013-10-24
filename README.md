@@ -18,8 +18,8 @@ Run
 
 >```$ mvn clean```
 
->```$ mvn compile exec:java -Dexec.mainClass=com.hlabs.hbrowse.handler.App```
+>```$ sh run.sh```
 
 Browse
 ============
-```$ http://localhost:8080```
+```$ http://localhost:8082```
