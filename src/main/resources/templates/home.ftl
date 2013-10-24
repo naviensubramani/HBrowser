@@ -141,9 +141,10 @@
       return confObj;
     }    
 
-  $("#runquery").click(function(){
-  qu = $("#query").val()
-  get_results(qu,'None');
+  $("#scan").click(function(){
+  cf = $("#sc_cf").val()
+  console.log(cf);
+
   });
 
 
@@ -329,9 +330,16 @@ function getTableNames(dataObj)
                   <div class="modal-body">
                   <div id="formdata">
                       <!--form action="/home" method="post"-->
-                      <textarea class="form-control" id="query" name="query" placeholder="Enter Hbase Query" rows="3" style="width: 100%;" required></textarea>
-                      <div>
-                      <button class="btn btn-primary" id="runquery" ><i class="icon-white icon-hand-right"></i> Run Query</button></div>
+                      <div class="controls" style="display: inline-block;">
+                          <select id="sc_cf">
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                          </select>
+                      </div>                      
+                      <div style="display: inline-block; vertical-align: top;">
+                        <button class="btn btn-primary" id="scan" ><i class="icon-white icon-hand-right"></i>Scan</button>
+                      </div>
                       <!--/form-->
                   </div>
                   <!-- Data list -->
