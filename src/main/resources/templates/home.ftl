@@ -274,7 +274,7 @@ function getTableNames(dataObj)
           <a class="brand" href="#">HBrowser</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              Welcome <a href="#" class="navbar-link">Naveen</a>
+              Welcome <a href="#" class="navbar-link">Guest</a>
             </p>
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
