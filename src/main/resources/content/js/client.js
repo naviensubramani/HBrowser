@@ -29,7 +29,7 @@
       var newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter);
                 newTextBoxDiv.after().html('Family #'+ counter + ' : ' +
         '<input type="text" name="textbox' + counter + 
-        '" id="CF' + counter + '" value="" >');
+        '" id="CF' + counter + '" value="" required>');
             
       newTextBoxDiv.appendTo("#TextBoxesGroup");
         
@@ -108,10 +108,15 @@
 
 
   $("#create").click(function(){
-  cfobj['table_name'] = $("#table_name").val();
-  cfobj['conn'] = get_config();
-  get_form_values();
-  create_table(cfobj);
+    $('#createTable').validate();
+    if ($('#createTable').valid()) {
+            cfobj['table_name'] = $("#table_name").val();
+            cfobj['conn'] = get_config();
+            get_form_values();
+            create_table(cfobj);      }
+        else {
+            alert('Invalid data');
+        }    
   });  
 
   $("#save").click(function(){

@@ -17,6 +17,9 @@
     <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet">
     <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
+<script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+<script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>    
+
     <script src="js/client.js" type="text/javascript"></script>  
     <script src="js/serverutil.js" type="text/javascript"></script>  
 
@@ -156,14 +159,16 @@
                   <!--Query Contents end-->
                 </div>
                 <div class="tab-pane" id="tab3">
-                  <div>Table Name : <input type="text" id="table_name"></div>
+                  <form id="createTable">
+                  <div>Table Name : <input type="text" id="table_name" required></div>
                     <div id="TextBoxesGroup">
                       <div id="TextBoxDiv1">
-                          <div id="TextBoxDiv1">Family #1 : <input type="text" id="CF1"></div>
+                          <div id="TextBoxDiv1">Family #1 : <input type="text" id="CF1" required></div>
                       </div>
                     </div>
                     <input type="button" value="Add" id="addButton">
                     <input type="button" value="Remove" id="removeButton">
+                    </form>
                     <button class="btn btn-primary" id="create" >Create</button>
                 </div> 
 
