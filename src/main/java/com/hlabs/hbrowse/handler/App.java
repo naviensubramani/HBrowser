@@ -10,16 +10,13 @@ package com.hlabs.hbrowse.handler;
 
 import com.hlabs.hbrowse.config.HBaseManager;
 import com.hlabs.hbrowse.config.HbaseConfig;
-import com.hlabs.hbrowse.controller.HBaseTableScanner;
+import com.hlabs.hbrowse.controller.HBaseController;
 import com.hlabs.hbrowse.controller.HbaseTableManager;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -108,21 +105,10 @@ public class App {
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
 
-                JSONParser parser = new JSONParser();
+                JSONObject conn = (JSONObject) HBaseController.get_Value(data,"conn");
+                App.setConfig(conn);
 
-                try {
-
-                    Object obj = parser.parse(data);
-
-                    JSONObject dataObject = (JSONObject) obj;
-
-                    App.setConfig((JSONObject) dataObject.get("conn"));
-
-                    return  "Sucessfully Saved Configuration";
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return "Unable to Saved Configuration ";
-                }
+                return  "Sucessfully Saved Configuration";
             }
         });
 
@@ -142,25 +128,7 @@ public class App {
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
 
-                JSONParser parser = new JSONParser();
-                try {
-
-                    Object obj = parser.parse(data);
-
-                    JSONObject dataObject = (JSONObject) obj;
-
-                    String tableName = (String) dataObject.get("table_name");
-                    System.out.println(tableName);
-
-                    JSONArray columnFamily = (JSONArray) dataObject.get("column_family");
-
-                    HbaseTableManager.create_Table(tableName,columnFamily);
-
-                    return "Successfully created table "+tableName;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return "Unable to create table";
-                }
+                return HBaseController.create(data);
             }
         });
 
@@ -170,23 +138,7 @@ public class App {
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
 
-                JSONParser parser = new JSONParser();
-                try {
-
-                    Object obj = parser.parse(data);
-
-                    JSONObject dataObject = (JSONObject) obj;
-
-                    String tableName = (String) dataObject.get("table_name");
-                    System.out.println(tableName);
-
-                    HbaseTableManager.drop_Table(tableName);
-
-                    return "Successfully Deleted table "+tableName;
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return "Unable to drop table";
-                }
+                return HBaseController.drop(data);
             }
         });
 
@@ -196,30 +148,7 @@ public class App {
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
 
-                JSONParser parser = new JSONParser();
-                try {
-
-                    Object obj = parser.parse(data);
-
-                    JSONObject dataObject = (JSONObject) obj;
-
-                    String tableName = (String) dataObject.get("table_name");
-                    System.out.println(tableName);
-
-                    String columnFamily = (String) dataObject.get("column_family");
-                    System.out.println(columnFamily);
-
-                    return HBaseTableScanner.scanTables(tableName, columnFamily);
-
-                }
-                catch (ParseException e) {
-                    e.printStackTrace();
-                    return "Unable to scan table - Parse Error";
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                    return "Unable to scan table";
-                }
+                return HBaseController.scan(data);
             }
         });
 //
@@ -229,33 +158,11 @@ public class App {
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
 
-                JSONParser parser = new JSONParser();
-
-                try {
-
-                    Object obj = parser.parse(data);
-
-                    JSONObject dataObject = (JSONObject) obj;
-
-                    String tableName = (String) dataObject.get("table_name");
-                    System.out.println(tableName);
-
-                    return HbaseTableManager.getColFamilies(tableName);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    return "Unable to list column families ";
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                    return "Unable to scan table";
-                }
+                return HBaseController.get_ColumnFamilies(data);
 
             }
         });
-        
-        
-        
+
     }
 
 

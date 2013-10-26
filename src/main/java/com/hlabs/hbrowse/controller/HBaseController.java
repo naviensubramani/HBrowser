@@ -1,73 +1,82 @@
 package com.hlabs.hbrowse.controller;
 
-import com.hlabs.hbrowse.config.HbaseConfig;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.KeyValue;
-import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.util.Bytes;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
 public class HBaseController {
 
-	public static Configuration configuration;
-	private static HTablePool pool;
 
-	static {  
-		HbaseConfig hbaseConfig = new HbaseConfig();
-		configuration = HBaseConfiguration.create();  
-		configuration.set("hbase.zookeeper.property.clientPort", hbaseConfig.getHBASE_ZOOKEEPER_PROPERTY_CLIENT_PORT());
-		configuration.set("hbase.zookeeper.quorum", hbaseConfig.getHBASE_ZOOKEEPER_QUORUM());
-		//  configuration.set("hbase.zookeeper.property.clientPort", "2181");
-		//configuration.set("hbase.zookeeper.quorum", "localhost");
+    public static Object scan(String data){
+        System.out.println("scan tbl");
 
-		// Without pooling, the connection to a table will be reinitialized.
-		// Creating a new connection to a table might take up to 5-10 seconds!
-		pool = new HTablePool(configuration, 10);
-	}  
+        try {
+            String tableName = HBaseController.get_Value(data,"table_name").toString();
+            String columnFamily = HBaseController.get_Value(data,"column_family").toString();
 
+            return HBaseTableScanner.scanTables(tableName, columnFamily);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return "Unable to scan table";
+        }
 
+    }
 
+    public static String create(String data){
+        System.out.println("create tbl");
+        String tableName = HBaseController.get_Value(data,"table_name").toString();
+        JSONArray columnFamily = (JSONArray) HBaseController.get_Value(data,"column_family");
+        HbaseTableManager.create_Table(tableName, columnFamily);
+        return "Sucessfully created table "+tableName;
+    }
 
+    public static String drop(String data){
+        System.out.println("drop tbl");
+        String tableName = HBaseController.get_Value(data,"table_name").toString();
+        HbaseTableManager.drop_Table(tableName);
+        return "Sucessfully dropped table "+tableName;
+    }
 
-	public static JSONObject scanTables(String TableName, String columnFamilyName) throws IOException{
+    public static Object get_ColumnFamilies(String data){
+        System.out.println("List Column Families");
+        String tableName = HBaseController.get_Value(data,"table_name").toString();
 
-		HTableInterface table = pool.getTable(TableName);
+        try {
+            return HbaseTableManager.getColFamilies(tableName);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		JSONObject rowObj = new JSONObject();
-		JSONObject colObj = new JSONObject();
+        return "Unable to get column families for "+tableName;
+    }
 
-		try {
-			Scan scan = new Scan();
+    public static Object get_Value(String jsonData,String key){
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(jsonData);
+            JSONObject dataObject = (JSONObject) obj;
+            return dataObject.get(key);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+            return "Unable to parse given data "+jsonData;
+        }
+    }
 
-			//        scan.setCaching(NUMBER_OF_ROWS_TO_CACHE);
-			//If you want to get data for all families then do not add any family.
-			scan.addFamily(Bytes.toBytes(columnFamilyName));
-			ResultScanner scanner = table.getScanner(scan);
+    public static void main(String args[]){
+//        String data = "{\"conn\":{\"zkQuorum\":\"localhost\",\"zkPort\":\"2181\"},\"table_name\":\"employee\",\"column_family\":\"personal1\"}";
+        String data = "{\"conn\":{\"zkQuorum\":\"localhost\",\"zkPort\":\"2181\"},\"table_name\":\"employee\",\"column_family\":[\"personal1\",\"medical\"]}";
+        Object obj = HBaseController.create(data);
 
-			// For each row
-			for (Result result : scanner) {
-				colObj.clear();
-				for (KeyValue kv : result.raw()) {
-					colObj.put(Bytes.toString(kv.getQualifier()), Bytes.toString(kv.getValue()));
-				}
-				rowObj.put(Bytes.toString(result.getRow()),colObj.clone());
-			}
-			System.out.println(rowObj);
-			scanner.close();
-		}
-		catch (IOException e){
-			System.out.print(e);
-		}
-		finally {
-			table.close();
-		}
-		return rowObj;
+        System.out.println(obj.toString());
 
+    }
 
-	}
 
 }
 

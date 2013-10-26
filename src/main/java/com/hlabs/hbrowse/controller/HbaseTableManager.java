@@ -57,7 +57,7 @@ public class HbaseTableManager {
     }
 
     @SuppressWarnings("unchecked")
-    public static void create_Table(String tableName,JSONArray columnFamily) {
+    public static String create_Table(String tableName,JSONArray columnFamily) {
         System.out.println("start create table ......");
         try {
             HBaseAdmin hBaseAdmin = HBaseManager.getHbaseAdmin();
@@ -76,6 +76,7 @@ public class HbaseTableManager {
             }
 
             hBaseAdmin.createTable(tableDescriptor);
+            return "Sucessfully Created Table";
         } catch (MasterNotRunningException e) {
             e.printStackTrace();
         } catch (ZooKeeperConnectionException e) {
@@ -84,6 +85,7 @@ public class HbaseTableManager {
             e.printStackTrace();
         }
         System.out.println("Create table ......"+tableName);
+        return "Unable to Created Table";
     }
 
 
