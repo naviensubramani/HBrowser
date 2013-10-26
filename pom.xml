@@ -6,7 +6,7 @@
 
     <groupId>com.hlabs</groupId>
     <artifactId>HBrowser</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
     <name>HBrowser</name>
     <packaging>jar</packaging>
 
@@ -32,16 +32,38 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<!--mainClass>com.hlabs.hbrowse.HBaseCRUD</mainClass -->
-							<mainClass>com.hlabs.hbrowse.handler.App</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
 			</plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <!--mainClass>com.hlabs.hbrowse.HBaseCRUD</mainClass -->
+                            <mainClass>com.hlabs.hbrowse.handler.App</mainClass>
+                        </manifest>
+                    </archive>
+
+                    <finalName>${pom.name}-fat-${pom.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
