@@ -8,8 +8,10 @@ package com.hlabs.hbrowse.handler;
  * To change this template use File | Settings | File Templates.
  */
 
-import com.hlabs.hbrowse.config.AppConfig;
-import com.hlabs.hbrowse.controller.HBaseController;
+import com.hlabs.hbrowse.config.HBaseManager;
+import com.hlabs.hbrowse.config.HbaseConfig;
+import com.hlabs.hbrowse.controller.HBaseTableScanner;
+import com.hlabs.hbrowse.controller.HbaseTableManager;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
@@ -34,6 +36,7 @@ import static spark.Spark.*;
  */
 public class App {
     private final Configuration cfg;
+    private static HBaseManager hBaseConfigManager;
 
     public static void main(String[] args) throws IOException {
         new App();
@@ -99,8 +102,8 @@ public class App {
         });
 
 
-        // used to query user tables
-        post(new Route("/listTablesNames") {
+        // Save Hbase Configuration Details
+        post(new Route("/saveConfig") {
             @Override
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
@@ -113,18 +116,23 @@ public class App {
 
                     JSONObject dataObject = (JSONObject) obj;
 
-                    JSONObject conn = (JSONObject) dataObject.get("conn");
-                    AppConfig appCfg = configureHBase(conn);
+                    App.setConfig((JSONObject) dataObject.get("conn"));
 
-                    HBaseController hr = new HBaseController();
-
-                    JSONObject tObj = hr.getAllTableNames();
-
-                    return  tObj;
+                    return  "Sucessfully Saved Configuration";
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    return "Unable to list tables ";
+                    return "Unable to Saved Configuration ";
                 }
+            }
+        });
+
+        // used to query user tables
+        post(new Route("/listTablesNames") {
+            @Override
+            public Object handle(Request request, Response response) {
+
+                return HbaseTableManager.getAllTableNames();
+
             }
         });
 
@@ -141,16 +149,12 @@ public class App {
 
                     JSONObject dataObject = (JSONObject) obj;
 
-                    JSONObject conn = (JSONObject) dataObject.get("conn");
-                    AppConfig appCfg = configureHBase(conn);
-
                     String tableName = (String) dataObject.get("table_name");
                     System.out.println(tableName);
 
                     JSONArray columnFamily = (JSONArray) dataObject.get("column_family");
 
-                    HBaseController hr = new HBaseController();
-                    hr.create_Table(tableName,columnFamily);
+                    HbaseTableManager.create_Table(tableName,columnFamily);
 
                     return "Successfully created table "+tableName;
                 } catch (ParseException e) {
@@ -173,15 +177,10 @@ public class App {
 
                     JSONObject dataObject = (JSONObject) obj;
 
-                    JSONObject conn = (JSONObject) dataObject.get("conn");
-                    AppConfig appCfg = configureHBase(conn);
-
                     String tableName = (String) dataObject.get("table_name");
                     System.out.println(tableName);
 
-                    HBaseController hr = new HBaseController();
-
-                    hr.drop_Table(tableName);
+                    HbaseTableManager.drop_Table(tableName);
 
                     return "Successfully Deleted table "+tableName;
                 } catch (ParseException e) {
@@ -204,18 +203,13 @@ public class App {
 
                     JSONObject dataObject = (JSONObject) obj;
 
-                    JSONObject conn = (JSONObject) dataObject.get("conn");
-                    AppConfig appCfg = configureHBase(conn);
-
                     String tableName = (String) dataObject.get("table_name");
                     System.out.println(tableName);
 
                     String columnFamily = (String) dataObject.get("column_family");
                     System.out.println(columnFamily);
 
-                    HBaseController hr = new HBaseController();
-
-                    return hr.scanTables(tableName,columnFamily);
+                    return HBaseTableScanner.scanTables(tableName, columnFamily);
 
                 }
                 catch (ParseException e) {
@@ -228,7 +222,7 @@ public class App {
                 }
             }
         });
-        
+//
         // used to query user tables
         post(new Route("/getCF") {
             @Override
@@ -243,15 +237,10 @@ public class App {
 
                     JSONObject dataObject = (JSONObject) obj;
 
-                    JSONObject conn = (JSONObject) dataObject.get("conn");
-                    AppConfig appCfg = configureHBase(conn);
-                    
                     String tableName = (String) dataObject.get("table_name");
-                    System.out.println(tableName);                    
+                    System.out.println(tableName);
 
-                    HBaseController hr = new HBaseController();
-
-                    return hr.getColFamilies(tableName);
+                    return HbaseTableManager.getColFamilies(tableName);
 
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -261,7 +250,7 @@ public class App {
                     e.printStackTrace();
                     return "Unable to scan table";
                 }
-                
+
             }
         });
         
@@ -277,18 +266,34 @@ public class App {
     }
 
 
-    private static AppConfig configureHBase(JSONObject conn) {
-        AppConfig appConfig = new AppConfig();
-
+    private static void setConfig(JSONObject conn) {
+        clearConfig();
+        System.out.println("Save the config details");
         try {
+            HbaseConfig.setHBASE_ZOOKEEPER_QUORUM((String) conn.get("zkQuorum"));
+            HbaseConfig.setHBASE_ZOOKEEPER_PROPERTY_CLIENT_PORT((String) conn.get("zkPort"));
+            HbaseConfig.setHBASE_MASTER("localhost");
 
-            appConfig.setHBASE_ZOOKEEPER_QUORUM((String) conn.get("zkQuorum"));
-            appConfig.setHBASE_ZOOKEEPER_PROPERTY_CLIENT_PORT((String) conn.get("zkPort"));
-            appConfig.setHBASE_MASTER("localhost");
+        if (hBaseConfigManager == null) {
+            System.out.println("null creating config object");
+            hBaseConfigManager = new HBaseManager();
+        }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return appConfig;
     }
+
+    private static void clearConfig() {
+        try {
+            if(hBaseConfigManager != null){
+            HbaseConfig.clearAllConfigs();
+            hBaseConfigManager = null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

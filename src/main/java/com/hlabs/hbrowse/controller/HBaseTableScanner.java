@@ -1,8 +1,6 @@
 package com.hlabs.hbrowse.controller;
 
-import com.hlabs.hbrowse.config.HbaseConfig;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
+import com.hlabs.hbrowse.config.HBaseManager;
 import org.apache.hadoop.hbase.KeyValue;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -10,26 +8,13 @@ import org.json.simple.JSONObject;
 
 import java.io.IOException;
 
-public class HBaseController {
+public class HBaseTableScanner {
 
-	public static Configuration configuration;
 	private static HTablePool pool;
 
 	static {  
-		HbaseConfig hbaseConfig = new HbaseConfig();
-		configuration = HBaseConfiguration.create();  
-		configuration.set("hbase.zookeeper.property.clientPort", hbaseConfig.getHBASE_ZOOKEEPER_PROPERTY_CLIENT_PORT());
-		configuration.set("hbase.zookeeper.quorum", hbaseConfig.getHBASE_ZOOKEEPER_QUORUM());
-		//  configuration.set("hbase.zookeeper.property.clientPort", "2181");
-		//configuration.set("hbase.zookeeper.quorum", "localhost");
-
-		// Without pooling, the connection to a table will be reinitialized.
-		// Creating a new connection to a table might take up to 5-10 seconds!
-		pool = new HTablePool(configuration, 10);
+		pool = new HTablePool(HBaseManager.hbaseConf, 10);
 	}  
-
-
-
 
 
 	public static JSONObject scanTables(String TableName, String columnFamilyName) throws IOException{

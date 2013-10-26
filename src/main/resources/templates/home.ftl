@@ -17,8 +17,10 @@
     <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet">
     <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
-<script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
-<script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>    
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.10.0/jquery.validate.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+
+
 
     <script src="js/client.js" type="text/javascript"></script>  
     <script src="js/serverutil.js" type="text/javascript"></script>  
@@ -50,18 +52,6 @@
         }
       }
     </style>
-<!--Script for dynamic text box-->
-<script type="text/javascript">
-
-</script> 
-
-
-<script>
-
-
-
-
-</script>
 
   <body>
 
@@ -159,7 +149,7 @@
                   <!--Query Contents end-->
                 </div>
                 <div class="tab-pane" id="tab3">
-                  <form id="createTable">
+                  <form id="createForm" method="POST">
                   <div>Table Name : <input type="text" id="table_name" required></div>
                     <div id="TextBoxesGroup">
                       <div id="TextBoxDiv1">
@@ -168,10 +158,11 @@
                     </div>
                     <input type="button" value="Add" id="addButton">
                     <input type="button" value="Remove" id="removeButton">
+                    <input type="submit">ddd</button>
                     </form>
                     <button class="btn btn-primary" id="create" >Create</button>
+                    
                 </div> 
-
                 <div class="tab-pane" id="tab4">
                     <div>
                       <div>

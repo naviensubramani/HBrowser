@@ -108,16 +108,21 @@
 
 
   $("#create").click(function(){
-    $('#createTable').validate();
-    if ($('#createTable').valid()) {
-            cfobj['table_name'] = $("#table_name").val();
-            cfobj['conn'] = get_config();
-            get_form_values();
-            create_table(cfobj);      }
-        else {
-            alert('Invalid data');
-        }    
-  });  
+    $("#createForm").submit(function(e)
+    {
+      alert('hi');
+        e.preventDefault(); //STOP default action
+    });    
+    $("#createForm").submit(); //SUBMIT FORM  
+    // $('#createForm').validate();
+    // if ($('#createForm').valid()) {
+    //         cfobj['table_name'] = $("#table_name").val();
+    //         cfobj['conn'] = get_config();
+    //         get_form_values();
+    //         create_table(cfobj);
+    //       }
+  }); 
+
 
   $("#save").click(function(){
     var cfobj = {};
