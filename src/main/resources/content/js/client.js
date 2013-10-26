@@ -100,10 +100,10 @@
     }    
 
   $("#scan").click(function(){
-    tNm = $("#tbl_list>ul>li.active");
-    cf = $("#sc_cf").val()
-    console.log(cf);
-    console.log(tNm.text());
+    var cfobj = {};
+    cfobj['table_name'] = $("#tblName li.active a").text();
+    cfobj['column_family'] = $("#sc_cf").val()
+    scanColumnFamily(cfobj);
   });
 
 

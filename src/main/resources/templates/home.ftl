@@ -158,7 +158,6 @@
                     </div>
                     <input type="button" value="Add" id="addButton">
                     <input type="button" value="Remove" id="removeButton">
-                    <input type="submit">ddd</button>
                     </form>
                     <button class="btn btn-primary" id="create" >Create</button>
                     

@@ -50,7 +50,7 @@
                         </manifest>
                     </archive>
 
-                    <finalName>${pom.name}-fat-${pom.version}</finalName>
+                    <finalName>${project.name}-fat-${project.version}</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>

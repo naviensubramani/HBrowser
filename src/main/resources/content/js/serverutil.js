@@ -84,6 +84,23 @@ function getTableNames(dataObj)
 
 }
 
+function scanColumnFamily(dataObj)
+{
+  console.log(JSON.stringify(dataObj));
+
+  $.post("/scanTable",
+  {
+    data: JSON.stringify(dataObj)
+  },
+  function(data,status){
+    console.log(status);
+    alert("Data: " + data + "\nStatus: " + status);
+    // alert("Data: " + data + "\nStatus: " + status);
+  });
+
+}
+
+
 function initilize(dataObj)
 {
   console.log(JSON.stringify(dataObj));
