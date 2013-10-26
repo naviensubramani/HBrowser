@@ -68,14 +68,16 @@ public class HBaseController {
         }
     }
 
-    public static void main(String args[]){
-//        String data = "{\"conn\":{\"zkQuorum\":\"localhost\",\"zkPort\":\"2181\"},\"table_name\":\"employee\",\"column_family\":\"personal1\"}";
-        String data = "{\"conn\":{\"zkQuorum\":\"localhost\",\"zkPort\":\"2181\"},\"table_name\":\"employee\",\"column_family\":[\"personal1\",\"medical\"]}";
-        Object obj = HBaseController.create(data);
+//    For Unit Testing
 
-        System.out.println(obj.toString());
-
-    }
+//    public static void main(String args[]){
+////        String data = "{\"conn\":{\"zkQuorum\":\"localhost\",\"zkPort\":\"2181\"},\"table_name\":\"employee\",\"column_family\":\"personal1\"}";
+//        String data = "{\"conn\":{\"zkQuorum\":\"localhost\",\"zkPort\":\"2181\"},\"table_name\":\"employee\",\"column_family\":[\"personal1\",\"medical\"]}";
+//        Object obj = HBaseController.create(data);
+//
+//        System.out.println(obj.toString());
+//
+//    }
 
 
 }

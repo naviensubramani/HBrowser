@@ -33,7 +33,6 @@ public class HbaseTableManager {
 		catch (IOException e) {
 			System.out.print(e);
 		}
-		System.out.println(tblAry);
 		tblObj.put("TableNames",tblAry);
 		return tblObj;
 	}
@@ -51,7 +50,6 @@ public class HbaseTableManager {
         for (HColumnDescriptor HCD : coln_desc ){
             coln_array.add(HCD.getNameAsString());
         }
-        System.out.println(coln_array);
         return coln_array;
 
     }
@@ -71,7 +69,6 @@ public class HbaseTableManager {
             Iterator<String> iterator = columnFamily.iterator();
             while (iterator.hasNext()) {
                 String colName = iterator.next();
-                System.out.println(colName);
                 tableDescriptor.addFamily(new HColumnDescriptor(colName));
             }
 

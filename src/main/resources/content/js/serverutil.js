@@ -83,3 +83,19 @@ function getTableNames(dataObj)
   });
 
 }
+
+function initilize(dataObj)
+{
+  console.log(JSON.stringify(dataObj));
+
+  $.post("/saveConfig",
+  {
+    data: JSON.stringify(dataObj)
+  },
+  function(data,status){
+    console.log(status);
+    getTableNames(dataObj);
+    // alert("Data: " + data + "\nStatus: " + status);
+  });
+
+}
