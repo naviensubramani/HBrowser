@@ -134,13 +134,10 @@
                   </div>
                   <!-- Data list -->
                   <div>
-                      <table class="table table-striped table-bordered table-condensed table-hover">
-                      <thead><tr> <th>Letter</th><th>Phonetic Letter</th></tr></thead>
-                      <tr><td>A</td><td>Alpha</td></tr>
-                      <tr><td>B</td><td>Bravo</td></tr>
-                      <tr><td>C</td><td>Charlie</td></tr>
-                      <tr><td>D</td><td>James</td></tr>                      
-                      <tr><td>E</td><td>Michle</td></tr>                      
+                      <table class="table table-striped table-bordered table-condensed table-hover" id="dataTable">
+                      <thead><tr> <th>Row Key</th><th>Column + Cell</th></tr></thead>
+                      <!-- Data list populated here-->
+
                       </table>
                   </div>
 
