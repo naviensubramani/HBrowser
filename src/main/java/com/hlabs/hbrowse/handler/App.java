@@ -41,6 +41,7 @@ public class App {
 
     public App() throws IOException {
         cfg = createFreemarkerConfiguration();
+        staticFileLocation("content");
         setPort(8082);
         initializeRoutes();
     }

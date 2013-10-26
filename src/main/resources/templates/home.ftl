@@ -9,7 +9,6 @@
     <!-- Le styles -->
 
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <!--link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"-->
 
@@ -17,6 +16,10 @@
 
     <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css" rel="stylesheet">
     <link href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <script src="js/client.js" type="text/javascript"></script>  
+    <script src="js/serverutil.js" type="text/javascript"></script>  
+
 
     <style type="text/css">
       body {
@@ -47,231 +50,11 @@
 <!--Script for dynamic text box-->
 <script type="text/javascript">
 
-    $(document).ready(function(){
-
-      var counter = 2;
-      var cfobj = {};
-      get_conn_config();
-
-
-      if (localStorage.getItem("conn_config") != null) {
-          console.log('Querying Database Tables');
-          cfobj['conn'] = get_config();
-          getTableNames(cfobj);
-      }  
-
-    
-      $("#addButton").click(function () {
-        
-      if(counter>10){
-            alert("Only 10 fields allowed");
-            return false;
-        }   
-      
-      var newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter);
-                newTextBoxDiv.after().html('Family #'+ counter + ' : ' +
-        '<input type="text" name="textbox' + counter + 
-        '" id="CF' + counter + '" value="" >');
-            
-      newTextBoxDiv.appendTo("#TextBoxesGroup");
-        
-        counter++;
-      });
-
-      $("#removeButton").click(function () {
-        if(counter==1){
-            alert("No more textbox to remove");
-            return false;
-        }   
-          counter--;
-      
-          $("#TextBoxDiv" + counter).remove();
-    });
-
-
-      function get_form_values()
-      {
-      var msg = '';
-      var columnF_vals = [];
-
-      for(i=1; i<counter; i++){
-        msg += "\n Column Family #" + i + " : " + $('#CF' + i).val();
-        columnF_vals.push($('#CF' + i).val());
-      }
-          cfobj['column_family'] = columnF_vals;
-      }      
-    
-    function set_conn_config(conObj)
-    {
-      if (typeof(localStorage) == 'undefined' ) {
-        alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-      } else {
-        try {
-          localStorage.removeItem("conn_config"); //deletes the matching item from the database
-          localStorage.setItem('conn_config', JSON.stringify(conObj)); //saves to the database, "key", "value"
-          alert('Successfully Saved!');
-        } catch (e) {
-           if (e == QUOTA_EXCEEDED_ERR) {
-             alert('Quota exceeded!'); //data wasn't successfully saved due to quota exceed so throw an error
-          }
-        }
-      }      
-    }      
-
-    function get_conn_config()
-    {
-      if (localStorage.getItem("conn_config") === null) {
-          alert('Please enter Connection details!');
-      }
-      else
-      {
-        var confObj = JSON.parse(localStorage.getItem('conn_config'));
-        console.log('confObj: ', confObj);  
-        $("#zkQuorum").val(confObj.zkQuorum);
-        $("#zkPort").val(confObj.zkPort);
-      }      
-    }
-
-
-    function get_config()
-    {
-      var confObj = {};
-      confObj['zkQuorum'] = $("#zkQuorum").val();
-      confObj['zkPort'] = $("#zkPort").val();
-      return confObj;
-    }    
-
-  $("#scan").click(function(){
-    tNm = $("#tbl_list>ul>li.active");
-    cf = $("#sc_cf").val()
-    console.log(cf);
-    console.log(tNm.text());
-  });
-
-
-  $("#create").click(function(){
-  cfobj['table_name'] = $("#table_name").val();
-  cfobj['conn'] = get_config();
-  get_form_values();
-  create_table(cfobj);
-  });  
-
-  $("#save").click(function(){
-    var cfobj = {};
-    var confObj = get_config();
-    set_conn_config(confObj);
-    var retrievedObject = localStorage.getItem('conn_config');
-    console.log('retrievedObject: ', JSON.parse(retrievedObject)); 
-    cfobj['conn'] = get_config();
-    getTableNames(cfobj);     
-  }); 
-
-  $("#drop").click(function(){
-    var cfobj = {};
-    cfobj['table_name'] = $("#dropTableName").val();
-    cfobj['conn'] = get_config();
-    drop_table(cfobj);
-   });   
-
-  $("#clear_config").click(function(){
-    localStorage.removeItem("conn_config"); 
-    $("#zkQuorum").val('');
-    $("#zkPort").val('');
-
-    console.log('Connection Configuration cleared !');  
-  });     
-
-$("#tblName ul").delegate("li", "click", function() {
-  $(this).addClass("active").siblings().removeClass("active");
-  var cfobj = {};
-  cfobj['table_name'] = $("#tblName>ul>li.active").text();
-  cfobj['conn'] = get_config();
-  get_cf(cfobj);  
-});
-   
-  });
 </script> 
 
 
 <script>
 
-function get_cf(dataObj)
-{
-  console.log(JSON.stringify(dataObj));
-  $.post("/getCF",
-  {
-    data: JSON.stringify(dataObj)
-  },
-  function(data,status){
-    console.log(status);
-    // alert("Data: " + data + "\nStatus: " + status);
-    var tbcf = JSON.parse(data);
-    console.log(tbcf);
-    $( "#sc_cf" ).empty();
-    for (i=0;i<tbcf.length;i++)
-    {
-      $( "#sc_cf" ).append( "<option value="+tbcf[i]+">"+tbcf[i]+"</option>" );
-    }
-  });
-}
-
-function drop_table(dataObj)
-{
-  $("#drop").button('loading');
-  $.post("/dropTable",
-  {
-    data: JSON.stringify(dataObj)
-  },
-  function(data,status){
-    console.log(status);
-    alert("Data: " + data + "\nStatus: " + status);
-    $("#drop").button('reset');
-    $('#TableList').html('');
-    getTableNames(dataObj);    
-  });
-
-}
-
-
-function create_table(dataObj)
-{
-  console.log(JSON.stringify(dataObj));
-  $("#create").button('loading');
-  $.post("/createTable",
-  {
-    data: JSON.stringify(dataObj)
-  },
-  function(data,status){
-    console.log(status);
-    $("#create").button('reset');
-    alert("Data: " + data + "\nStatus: " + status);
-    $('#TableList').html('');
-    getTableNames(dataObj);        
-  });
-
-}
-
-
-function getTableNames(dataObj)
-{
-  console.log(JSON.stringify(dataObj));
-
-  $.post("/listTablesNames",
-  {
-    data: JSON.stringify(dataObj)
-  },
-  function(data,status){
-    var tnm = JSON.parse(data);
-    console.log(tnm);
-    for (i=0;i<tnm['TableNames'].length;i++)
-    {
-      $( "#TableList" ).append( "<li ><a href='#''>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a></li>" );
-    }
-   
-    // alert("Data: " + data + "\nStatus: " + status);
-  });
-
-}
 
 
 
