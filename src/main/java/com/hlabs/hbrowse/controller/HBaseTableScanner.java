@@ -31,7 +31,7 @@ public class HBaseTableScanner {
 			//If you want to get data for all families then do not add any family.
 			scan.addFamily(Bytes.toBytes(columnFamilyName));
 			ResultScanner scanner = table.getScanner(scan);
-
+			
 			// For each row
 			for (Result result : scanner) {
 				colObj.clear();
