@@ -26,6 +26,7 @@ public class HBaseTableScanner {
 
 		try {
 			Scan scan = new Scan();
+//            Scan.setMaxResultSize(5);
 
 			//        scan.setCaching(NUMBER_OF_ROWS_TO_CACHE);
 			//If you want to get data for all families then do not add any family.
