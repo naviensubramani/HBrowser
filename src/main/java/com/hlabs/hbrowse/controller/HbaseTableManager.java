@@ -7,6 +7,8 @@ import org.apache.hadoop.hbase.MasterNotRunningException;
 import org.apache.hadoop.hbase.ZooKeeperConnectionException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -52,6 +54,22 @@ public class HbaseTableManager {
         }
         return coln_array;
 
+    }
+    
+    public static void insert_Table(String tableName, String coln_family, String coln_qualifier, String row_key, String coln_value) throws IOException{
+    	
+    	HTable table = new HTable(HBaseManager.hbaseConf,tableName);
+    	
+    	//Check whether the Column name is present
+        if (!table.getTableDescriptor().hasFamily(Bytes.toBytes(coln_family)) ){
+        	System.out.println(coln_family + "(ColumnFamily) is not available in Table:" + tableName);
+        	return;
+        }
+        
+        Put put = new Put(Bytes.toBytes(row_key));
+        put.add(Bytes.toBytes(coln_family), Bytes.toBytes(coln_qualifier), Bytes.toBytes(coln_value));
+        table.put(put);
+        table.close();
     }
 
     @SuppressWarnings("unchecked")
