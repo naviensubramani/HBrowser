@@ -8,19 +8,11 @@
 
     <!-- Le styles -->
 
-<script src="js/jquery-latest.min.js" type="text/javascript"></script>
-<script src="js/bootstrap.min.js"></script>
-<!--link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"-->
-
-
-
+    <script src="js/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!--link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"-->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-
-
-
-
-
     <script src="js/client.js" type="text/javascript"></script>  
     <script src="js/serverutil.js" type="text/javascript"></script>  
 
@@ -138,6 +130,29 @@
 
                   </div>
                   <!--Query Contents end-->
+
+                <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Insert Row</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div>Column Qualifier : <select id="isert_cq"> </select></div>
+                        <div>Row Key : &nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowkey" ></div>
+                        <div>Row Value : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowvalue"></div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div><!-- /.modal-content -->
+                  </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+
                 </div>
                 <div class="tab-pane" id="tab3">
                   <form id="createForm" method="POST">
