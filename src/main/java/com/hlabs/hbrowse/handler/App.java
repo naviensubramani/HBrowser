@@ -1,13 +1,10 @@
 package com.hlabs.hbrowse.handler;
 
 /**
- * Created with IntelliJ IDEA.
- * User: naveen
+  * User: naveen
  * Date: 10/2/13
  * Time: 11:02 AM
- * To change this template use File | Settings | File Templates.
  */
-
 import com.hlabs.hbrowse.config.HBaseManager;
 import com.hlabs.hbrowse.config.HbaseConfig;
 import com.hlabs.hbrowse.controller.HBaseController;
