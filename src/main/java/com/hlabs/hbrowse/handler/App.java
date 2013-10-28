@@ -36,13 +36,23 @@ public class App {
     private static HBaseManager hBaseConfigManager;
 
     public static void main(String[] args) throws IOException {
-        new App();
+        new App(args);
     }
 
-    public App() throws IOException {
+    public App (String[] args) throws IOException {
         cfg = createFreemarkerConfiguration();
         staticFileLocation("content");
-        setPort(8082);
+        int serverPort = 8082;
+        if (args.length > 0) {
+            try {
+                serverPort = Integer.parseInt(args[0]);
+                System.out.println("Setting Spark Server port ::: "+serverPort);
+            } catch (NumberFormatException e) {
+                System.err.println("Argument" + " must be an integer");
+                System.exit(1);
+            }
+        }
+        setPort(serverPort);
         initializeRoutes();
     }
 
