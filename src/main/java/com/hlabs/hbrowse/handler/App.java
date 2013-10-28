@@ -158,6 +158,16 @@ public class App {
                 return HBaseController.scan(data);
             }
         });
+
+        post(new Route("/insert") {
+            @Override
+            public Object handle(Request request, Response response) {
+                String data = request.queryParams("data");
+
+                return HBaseController.insert(data);
+            }
+        });
+
 //
         // used to query user tables
         post(new Route("/getCF") {

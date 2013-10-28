@@ -26,6 +26,25 @@ public class HBaseController {
 
     }
 
+    public static String insert(String data){
+        System.out.println("Insert in to tbl");
+        String tableName = HBaseController.get_Value(data,"table_name").toString();
+        String columnFamily = HBaseController.get_Value(data,"column_family").toString();
+        String columnQualifier = HBaseController.get_Value(data,"column_qualifier").toString();
+        String RowKey = HBaseController.get_Value(data,"row_key").toString();
+        String RowValue = HBaseController.get_Value(data,"row_value").toString();
+
+        try {
+            HBaseTableScanner.insert_into_Table(tableName,columnFamily,columnQualifier,RowKey,RowValue);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return "Unable to insert into table";
+        }
+
+        return "Sucessfully Inserted into table "+tableName;
+    }
+
     public static String create(String data){
         System.out.println("create tbl");
         String tableName = HBaseController.get_Value(data,"table_name").toString();
