@@ -65,13 +65,8 @@
           </button>
           <a class="brand" href="#">HBrowser</a>
           <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Welcome <a href="#" class="navbar-link">Guest</a>
-            </p>
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -92,6 +87,25 @@
           </div><!--/.well -->
         </div><!--/span-->
 
+
+  <!-- Insert Modal -->
+  <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Insert Row </h4>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
         <div class="span10">
           <div class="hero-unit">
@@ -129,13 +143,13 @@
                       </div>                      
                       <div style="display: inline-block; vertical-align: top;">
                         <button class="btn btn-primary" id="scan" ><i class="icon-white icon-hand-right"></i>Scan</button>
+                        <a data-toggle="modal" href="#insertModal" class="btn btn-success btn-lg">Insert</a>
                       </div>
                       <!--/form-->
                   </div>
                   <!-- Data list -->
                   <div>
                       <table class="table table-striped table-bordered table-condensed table-hover" id="dataTable">
-                      <thead><tr> <th>Row Key</th><th>Column + Cell</th></tr></thead>
                       <!-- Data list populated here-->
 
                       </table>
