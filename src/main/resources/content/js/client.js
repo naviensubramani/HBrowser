@@ -106,6 +106,13 @@
     scanColumnFamily(cfobj);
   });
 
+  $("#insert").click(function(){
+      var cfobj = {};
+      cfobj['table_name'] = $("#tblName li.active a").text();
+      cfobj['column_family'] = $("#sc_cf").val()
+      insert_into_table(cfobj);
+  });
+
 
   $("#create").click(function(){
       cfobj['table_name'] = $("#table_name").val();

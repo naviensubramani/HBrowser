@@ -115,7 +115,7 @@
                       </div>                      
                       <div style="display: inline-block; vertical-align: top;">
                         <button class="btn btn-primary" id="scan" ><i class="icon-white icon-hand-right"></i>Scan</button>
-                        <a data-toggle="modal" href="#insertModal" class="btn btn-success btn-lg">Insert</a>
+                        <a data-toggle="modal" href="#insertModal" class="btn btn-success btn-lg" >Insert</a>
                       </div>
                       <!--/form-->
                   </div>
@@ -145,7 +145,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" id="insert">Save changes</button>
                       </div>
                     </div><!-- /.modal-content -->
                   </div><!-- /.modal-dialog -->
