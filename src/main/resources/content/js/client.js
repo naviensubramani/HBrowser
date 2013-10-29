@@ -79,7 +79,7 @@
     function get_conn_config()
     {
       if (localStorage.getItem("conn_config") === null) {
-          alert('Please enter Connection details!');
+          alert('Please Configure Connection details in Settings!');
       }
       else
       {

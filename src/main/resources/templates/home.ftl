@@ -55,14 +55,44 @@
             <span class="icon-bar"></span>
           </button>
           <a class="brand" href="#">HBrowser</a>
+          <p class="navbar-text pull-right">
+            <a data-toggle="modal" href="#settingsModal" class="navbar-link" >Settings</a></p>
           <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+            <ul class="nav navbar-nav">
+              
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+
+<!--/.Modal pan for settings screen -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Settings</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+          <span class="badge">Connection Settings</span>
+          <br>
+          <br>
+            <div>
+                <div>hbase.zookeeper.quorum : <input type="text" id="zkQuorum" placeholder="localhost"></div>
+                <div>hbase.zookeeper.clientPort : <input type="text" id="zkPort" placeholder="2181" ></div>
+            </div> 
+          </div>         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn" id="clear_config" >Clear</button>          
+          <button class="btn btn-primary" id="save" >Save</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->     
 
     <div class="container-fluid">
       <div class="row-fluid">
@@ -85,26 +115,12 @@
             <!--section unit-->
             <div class="tabbable" id="maintabs"> <!-- Only required for left/right tabs -->
               <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab1" data-toggle="tab">Config</a></li>
-                <li><a href="#tab2" data-toggle="tab">Scan</a></li>
-                <li><a href="#tab3" data-toggle="tab">Create</a></li>
-                <li><a href="#tab4" data-toggle="tab">Drop</a></li>
+                <li class="active"><a href="#tab1" data-toggle="tab">Scan</a></li>
+                <li><a href="#tab2" data-toggle="tab">Create</a></li>
+                <li><a href="#tab3" data-toggle="tab">Drop</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
-                    <div>
-                      <div>
-                          <div>hbase.zookeeper.quorum : <input type="text" id="zkQuorum" placeholder="localhost"></div>
-                          <div>hbase.zookeeper.clientPort : <input type="text" id="zkPort" placeholder="2181" ></div>
-                      </div>
-                    </div>
-                    <button class="btn btn-primary" id="save" >Save</button>
-                    <button class="btn" id="clear_config" >Clear</button>
-                  </div>                    
-
-
-                <div class="tab-pane" id="tab2">
-
                   <!--Query Contents-->
                   <div class="modal-body">
                   <div id="formdata">
@@ -151,10 +167,8 @@
                   </div><!-- /.modal-dialog -->
                 </div><!-- /.modal -->
 
-
-
                 </div>
-                <div class="tab-pane" id="tab3">
+                <div class="tab-pane" id="tab2">
                   <form id="createForm" method="POST">
                   <div>Table Name : <input type="text" id="table_name" required></div>
                     <div id="TextBoxesGroup">
@@ -168,7 +182,7 @@
                     <button class="btn btn-primary" id="create" >Create</button>
                     
                 </div> 
-                <div class="tab-pane" id="tab4">
+                <div class="tab-pane" id="tab3">
                     <div>
                       <div>
                           <div>Table Name : <input type="text" id="dropTableName" placeholder="student"></div>
