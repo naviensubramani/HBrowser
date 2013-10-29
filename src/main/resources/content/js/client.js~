@@ -79,7 +79,7 @@
     function get_conn_config()
     {
       if (localStorage.getItem("conn_config") === null) {
-          alert('Please Configure Connection details in Settings!');
+          alert('Please enter Connection details!');
       }
       else
       {
@@ -105,18 +105,11 @@
     cfobj['column_family'] = $("#sc_cf").val()
     scanColumnFamily(cfobj);
   });
-  
-  $("#close").click(function(){
-    $("#scan").click();
-  });
 
   $("#insert").click(function(){
       var cfobj = {};
       cfobj['table_name'] = $("#tblName li.active a").text();
-      cfobj['column_family'] = $("#sc_cf").val();
-      cfobj['column_qualifier'] = $("#insert_cq").val();
-      cfobj['row_key'] = $("#insert_rowkey").val();
-      cfobj['column_value'] = $("#insert_rowvalue").val();
+      cfobj['column_family'] = $("#sc_cf").val()
       insert_into_table(cfobj);
   });
 
@@ -157,7 +150,7 @@
 $("#tblName ul").delegate("li", "click", function() {
   $(this).addClass("active").siblings().removeClass("active");
   var cfobj = {};
-  cfobj['table_name'] = $("#tblName>ul>li.active>a").text();
+  cfobj['table_name'] = $("#tblName>ul>li.active").text();
   cfobj['conn'] = get_config();
   get_cf(cfobj);  
 });
