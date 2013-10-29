@@ -150,7 +150,7 @@
 $("#tblName ul").delegate("li", "click", function() {
   $(this).addClass("active").siblings().removeClass("active");
   var cfobj = {};
-  cfobj['table_name'] = $("#tblName>ul>li.active").text();
+  cfobj['table_name'] = $("#tblName>ul>li.active>a").text();
   cfobj['conn'] = get_config();
   get_cf(cfobj);  
 });

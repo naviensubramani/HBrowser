@@ -76,7 +76,7 @@ function getTableNames(dataObj)
     console.log(tnm);
     for (i=0;i<tnm['TableNames'].length;i++)
     {
-      $( "#TableList" ).append( "<li ><a href='#''>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a></li>" );
+      $( "#TableList" ).append( "<li ><a href='#' style='display: inline-block;'>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a><div style='display: inline-block;'>X</div></li>" );
     }
    
     // alert("Data: " + data + "\nStatus: " + status);

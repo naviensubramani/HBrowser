@@ -74,7 +74,7 @@
               <li class="nav-header">Tables</li>
             </ul>
             <div id="tblName">
-            <ul class="nav nav-list" id="TableList">
+            <ul class="nav nav-list" id="TableList" style="display: inline-block;">
             </ul>
             </div>
           </div><!--/.well -->
