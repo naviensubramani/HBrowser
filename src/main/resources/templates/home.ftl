@@ -66,34 +66,6 @@
       </div>
     </div>
 
-<!--/.Modal pan for settings screen -->
-  <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Settings</h4>
-        </div>
-        <div class="modal-body">
-          <div>
-          <span class="badge">Connection Settings</span>
-          <br>
-          <br>
-            <div>
-                <div>hbase.zookeeper.quorum : <input type="text" id="zkQuorum" placeholder="localhost"></div>
-                <div>hbase.zookeeper.clientPort : <input type="text" id="zkPort" placeholder="2181" ></div>
-            </div> 
-          </div>         
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button class="btn" id="clear_config" >Clear</button>          
-          <button class="btn btn-primary" id="save" >Save</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->     
-
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span2">
@@ -130,7 +102,7 @@
                           </select>
                       </div>                      
                       <div style="display: inline-block; vertical-align: top;">
-                        <button class="btn btn-primary" id="scan" ><i class="icon-white icon-hand-right"></i>Scan</button>
+                        <button class="btn btn-primary" id="scan" >Scan</button>
                         <a data-toggle="modal" href="#insertModal" class="btn btn-success btn-lg" >Insert</a>
                       </div>
                       <!--/form-->
@@ -146,26 +118,6 @@
 
                   </div>
                   <!--Query Contents end-->
-
-                <div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Insert Row</h4>
-                      </div>
-                      <div class="modal-body">
-                        <div>Column Qualifier : <select id="isert_cq"> </select></div>
-                        <div>Row Key : &nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowkey" ></div>
-                        <div>Row Value : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowvalue"></div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="insert">Save changes</button>
-                      </div>
-                    </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
 
                 </div>
                 <div class="tab-pane" id="tab2">
@@ -211,5 +163,54 @@
       </footer>
 
     </div>
+
+<!--/.Modal pan for settings screen -->
+  <div class="modal fade panel" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Settings</h4>
+        </div>
+        <div class="modal-body">
+          <div>
+          <span class="badge">Connection Settings</span>
+          <br>
+          <br>
+            <div>
+                <div>hbase.zookeeper.quorum : <input type="text" id="zkQuorum" placeholder="localhost"></div>
+                <div>hbase.zookeeper.clientPort : <input type="text" id="zkPort" placeholder="2181" ></div>
+                <div>hbase.master : <input type="text" id="hbMaster" placeholder="localhost" ></div>
+            </div> 
+          </div>         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button class="btn btn-warning" id="clear_config" >Clear</button>          
+          <button class="btn btn-success" id="save" >Save</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+<!--/.Modal pan for Insert screen -->
+  <div class="modal fade panel" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Insert Row</h4>
+        </div>
+        <div class="modal-body">
+          <div>Column Qualifier : <select id="isert_cq"> </select></div>
+          <div>Row Key : &nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowkey" ></div>
+          <div>Row Value : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowvalue"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="insert">Insert</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->        
 
 </body></html>
