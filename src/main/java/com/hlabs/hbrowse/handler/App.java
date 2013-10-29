@@ -159,7 +159,7 @@ public class App {
             }
         });
 
-        post(new Route("/insert") {
+        post(new Route("/insertTable") {
             @Override
             public Object handle(Request request, Response response) {
                 String data = request.queryParams("data");
@@ -167,7 +167,6 @@ public class App {
                 return HBaseController.insert(data);
             }
         });
-
 //
         // used to query user tables
         post(new Route("/getCF") {

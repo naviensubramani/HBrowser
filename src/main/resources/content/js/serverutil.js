@@ -113,25 +113,18 @@ function scanColumnFamily(dataObj)
 function insert_into_table(dataObj)
 {
   console.log(JSON.stringify(dataObj));
+  $("#insert").button('loading');
 
-  // $.post("/scanTable",
-  // {
-  //   data: JSON.stringify(dataObj)
-  // },
-  // function(data,status){
-  //   $('#dataTable').html('');
-  //   var rows = JSON.parse(data);
-  //   keys = Object.keys(rows);
-  //   keys.sort();
-  //   console.log(rows);
-  //   $( "#dataTable" ).append( "<thead><tr> <th>Row Key</th><th>Column + Cell</th></tr></thead>" );
-  // for (i = 0; i < keys.length; i++)
-  // {
-  //     k = keys[i];
-  //     var value = JSON.stringify(rows[k]);
-  //     $( "#dataTable" ).append( "<tr><td>"+k+"</td><td>"+value+"</td></tr>" );
-  // }
-  // });
+   $.post("/insertTable",
+   {
+     data: JSON.stringify(dataObj)
+   },
+   function(data,status){
+   console.log(status);
+   $("#insert").button('reset');
+   $("#close").click();
+   alert(data);
+   });
 
 }
 

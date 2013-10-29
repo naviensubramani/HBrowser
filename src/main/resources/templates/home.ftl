@@ -159,7 +159,7 @@
       <hr>
 
       <footer>
-        <p>© Hbrowse 2013</p>
+        <p>�� Hbrowse 2013</p>
       </footer>
 
     </div>
@@ -198,14 +198,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <button type="button" class="close" id="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Insert Row</h4>
         </div>
         <div class="modal-body">
-          <div>Column Qualifier : <select id="isert_cq"> </select></div>
-          <div>Row Key : &nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowkey" ></div>
-          <div>Row Value : &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="text" id="insert_rowvalue"></div>
-        </div>
+                        <div>Column Qualifier : <input type="text" id="insert_cq"></div>
+                        <div>Row Key : <input type="text" id="insert_rowkey" ></div>
+                        <div>Row Value : <input type="text" id="insert_rowvalue"></div>
+                      </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="insert">Insert</button>
         </div>
