@@ -27,6 +27,7 @@ target/
 .DS_Store
 .DS_Store?
 ._*
+.fuse*
 .Spotlight-V100
 .Trashes
 Icon?

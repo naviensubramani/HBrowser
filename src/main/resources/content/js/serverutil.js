@@ -76,7 +76,7 @@ function getTableNames(dataObj)
     console.log(tnm);
     for (i=0;i<tnm['TableNames'].length;i++)
     {
-      $( "#TableList" ).append("<li><div id="+tnm['TableNames'][i]+"><a onclick='get_cols(this)'>"+tnm['TableNames'][i]+"</a> <span onclick='drop_me(this)'>Delete</span></div></li>");
+      $( "#TableList" ).append("<li><div id="+tnm['TableNames'][i]+"><a href='#' onclick='get_cols(this)'>"+tnm['TableNames'][i]+"</a> <span onclick='drop_me(this)' class='label label-important'><i class='fa fa-trash-o'></i></span></div></li>");
     }
    
     // alert("Data: " + data + "\nStatus: " + status);
@@ -164,8 +164,14 @@ function get_cols(obj){
 function drop_me(obj){
   console.log("Drop Table");
   console.log((obj.parentNode).id);
+if (confirm('Are you sure you want to Drop the database?')) {
+    // Drop it!
+    var cfobj = {};
+    cfobj['table_name'] = (obj.parentNode).id;
+    drop_table(cfobj);        
 
-  // var cfobj = {};
-  // cfobj['table_name'] = (obj.parentNode).id;
-  // drop_table(cfobj);  
+} else {
+    // Do nothing!
+};  
+
 }

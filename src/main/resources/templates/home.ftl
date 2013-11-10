@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
+<html lang="en"><head>
     <title>HBrowser</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
     <!-- Le styles -->
 
     <script src="js/jquery-latest.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js"></script>
     <!--link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"-->
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet"></link>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet"></link>
     <script src="js/client.js" type="text/javascript"></script>  
     <script src="js/serverutil.js" type="text/javascript"></script>  
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-
+</head>
 
     <style type="text/css">
       body {
@@ -26,14 +23,18 @@
       .sidebar-nav {
         padding: 9px 0;
       }
-
       .hero-unit {
       padding: 20px;
       margin-bottom: 5px;
       font-size: 16px;
       font-weight: 200;
-      }      
+      }    
 
+      .active>div>a {
+                color: #ffffff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+        background-color: #0088cc;
+      }
 
       @media (max-width: 980px) {
         /* Enable use of floated navbar text */
@@ -89,7 +90,7 @@
               <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab">Scan</a></li>
                 <li><a href="#tab2" data-toggle="tab">Create</a></li>
-                <li><a href="#tab3" data-toggle="tab">Drop</a></li>
+                <li><a href="#tab3" data-toggle="tab" style="display: none;">Drop</a></li>
               </ul>
               <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
@@ -122,14 +123,14 @@
                 </div>
                 <div class="tab-pane" id="tab2">
                   <form id="createForm" method="POST">
-                  <div>Table Name : <input type="text" id="table_name" required></div>
+                  <div>Table Name : <input type="text" id="table_name" required="true"/></div>
                     <div id="TextBoxesGroup">
                       <div id="TextBoxDiv1">
-                          <div id="TextBoxDiv1">Family #1 : <input type="text" id="CF1" required></div>
+                          <div id="TextBoxDiv1">Family #1 : <input type="text" id="CF1" required="true"/></div>
                       </div>
                     </div>
-                    <input type="button" value="Add" id="addButton">
-                    <input type="button" value="Remove" id="removeButton">
+                    <input type="button" value="Add" id="addButton"/>
+                    <input type="button" value="Remove" id="removeButton"/>
                     </form>
                     <button class="btn btn-primary" id="create" >Create</button>
                     
@@ -137,7 +138,7 @@
                 <div class="tab-pane" id="tab3">
                     <div>
                       <div>
-                          <div>Table Name : <input type="text" id="dropTableName" placeholder="student"></div>
+                          <div>Table Name : <input type="text" id="dropTableName" placeholder="student"/></div>
                       </div>
                     </div>
                     <button class="btn btn-danger" id="drop" >Drop</button>
@@ -145,46 +146,34 @@
                 </div>
               </div>
             </div>          
-
-
-    </div>
-
-
           </div>
+</div>
+    </div>
           
           
-        </div><!--/span-->
-      </div><!--/row-->
-
-      <hr>
-
       <footer>
         <p>�� Hbrowse 2013</p>
       </footer>
-
-    </div>
-
 <!--/.Modal pan for settings screen -->
   <div class="modal fade panel" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
           <h4 class="modal-title">Settings</h4>
         </div>
         <div class="modal-body">
           <div>
           <span class="label label-info">Connection Settings</span>
-          <br>
-          <br>
+          <br></br>
             <div>
               <table>
                 <tr><td><strong>hbase.zookeeper.quorum</strong></td></tr>
-                <tr><td><input type="text" id="zkQuorum" placeholder="localhost"></td></tr>
+                <tr><td><input type="text" id="zkQuorum" placeholder="localhost"/></td></tr>
                 <tr><td><strong>hbase.zookeeper.clientPort</strong></td></tr>
-                <tr><td><input type="text" id="zkPort" placeholder="2181" ></td></tr>
+                <tr><td><input type="text" id="zkPort" placeholder="2181"/></td></tr>
                 <tr><td><strong>hbase.master</strong></td></tr>
-                <tr><td><input type="text" id="hbMaster" placeholder="localhost" ></td></tr>
+                <tr><td><input type="text" id="hbMaster" placeholder="localhost"/></td></tr>
               </table>
             </div> 
           </div>         
@@ -203,13 +192,13 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" id="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <button type="button" class="close" id="close" data-dismiss="modal" aria-hidden="true"></button>
           <h4 class="modal-title">Insert Row</h4>
         </div>
         <div class="modal-body">
-                        <div>Column Qualifier : <input type="text" id="insert_cq"></div>
-                        <div>Row Key : <input type="text" id="insert_rowkey" ></div>
-                        <div>Row Value : <input type="text" id="insert_rowvalue"></div>
+                        <div>Column Qualifier : <input type="text" id="insert_cq"/></div>
+                        <div>Row Key : <input type="text" id="insert_rowkey"/></div>
+                        <div>Row Value : <input type="text" id="insert_rowvalue"/></div>
                       </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="insert">Insert</button>
