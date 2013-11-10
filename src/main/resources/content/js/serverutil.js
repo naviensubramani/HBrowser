@@ -76,7 +76,7 @@ function getTableNames(dataObj)
     console.log(tnm);
     for (i=0;i<tnm['TableNames'].length;i++)
     {
-      $( "#TableList" ).append( "<li ><a href='#' style='display: inline-block;'>"+tnm['TableNames'][i]+"<i class='icon-chevron-right'></i></a><div style='display: inline-block;'>X</div></li>" );
+      $( "#TableList" ).append("<li><div id="+tnm['TableNames'][i]+"><a onclick='get_cols(this)'>"+tnm['TableNames'][i]+"</a> <span onclick='drop_me(this)'>Delete</span></div></li>");
     }
    
     // alert("Data: " + data + "\nStatus: " + status);
@@ -145,4 +145,27 @@ function initilize(dataObj)
     // alert("Data: " + data + "\nStatus: " + status);
   });
 
+}
+
+
+
+function get_cols(obj){
+  console.log("List Column Families");
+  console.log(obj);
+  console.log((obj.parentNode).id);
+  console.log((obj.parentNode).parentNode);
+  $((obj.parentNode).parentNode).addClass("active").siblings().removeClass("active");
+  var cfobj = {};
+  cfobj['table_name'] = (obj.parentNode).id
+  get_cf(cfobj);    
+}
+
+
+function drop_me(obj){
+  console.log("Drop Table");
+  console.log((obj.parentNode).id);
+
+  // var cfobj = {};
+  // cfobj['table_name'] = (obj.parentNode).id;
+  // drop_table(cfobj);  
 }

@@ -17,6 +17,7 @@
     <script src="js/serverutil.js" type="text/javascript"></script>  
 
 
+
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -65,7 +66,6 @@
         </div>
       </div>
     </div>
-
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span2">
@@ -174,13 +174,18 @@
         </div>
         <div class="modal-body">
           <div>
-          <span class="badge">Connection Settings</span>
+          <span class="label label-info">Connection Settings</span>
           <br>
           <br>
             <div>
-                <div>hbase.zookeeper.quorum : <input type="text" id="zkQuorum" placeholder="localhost"></div>
-                <div>hbase.zookeeper.clientPort : <input type="text" id="zkPort" placeholder="2181" ></div>
-                <div>hbase.master : <input type="text" id="hbMaster" placeholder="localhost" ></div>
+              <table>
+                <tr><td><strong>hbase.zookeeper.quorum</strong></td></tr>
+                <tr><td><input type="text" id="zkQuorum" placeholder="localhost"></td></tr>
+                <tr><td><strong>hbase.zookeeper.clientPort</strong></td></tr>
+                <tr><td><input type="text" id="zkPort" placeholder="2181" ></td></tr>
+                <tr><td><strong>hbase.master</strong></td></tr>
+                <tr><td><input type="text" id="hbMaster" placeholder="localhost" ></td></tr>
+              </table>
             </div> 
           </div>         
         </div>
