@@ -76,7 +76,7 @@ function getTableNames(dataObj)
     console.log(tnm);
     for (i=0;i<tnm['TableNames'].length;i++)
     {
-      $( "#TableList" ).append("<li><div id="+tnm['TableNames'][i]+"><a href='#' onclick='get_cols(this)'>"+tnm['TableNames'][i]+"</a> <span onclick='drop_me(this)' class='label label-important'><i class='fa fa-trash-o'></i></span></div></li>");
+      $( "#TableList" ).append("<li><div id="+tnm['TableNames'][i]+"><a href='#' onclick='get_cols(this)'>"+tnm['TableNames'][i]+"</a> <span onclick='drop_me(this)' class='label label-important' onmouseover='' style='cursor: pointer;'><i class='fa fa-trash-o'></i></span></div></li>");
     }
    
     // alert("Data: " + data + "\nStatus: " + status);

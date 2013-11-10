@@ -152,7 +152,7 @@
           
           
       <footer>
-        <p>�� Hbrowse 2013</p>
+        <p>© Hbrowse 2013</p>
       </footer>
 <!--/.Modal pan for settings screen -->
   <div class="modal fade panel" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
