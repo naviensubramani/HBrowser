@@ -28,6 +28,8 @@ function get_cf(dataObj)
 
 function drop_table(dataObj)
 {
+  // Open the full wait screen
+  $("#overlay").show();  
   $("#drop").button('loading');
   $.post("/dropTable",
   {
@@ -38,7 +40,9 @@ function drop_table(dataObj)
     alert("Data: " + data + "\nStatus: " + status);
     $("#drop").button('reset');
     $('#TableList').html('');
-    getTableNames(dataObj);    
+    getTableNames(dataObj); 
+    // close the full wait screen
+    $("#overlay").hide();        
   });
 
 }

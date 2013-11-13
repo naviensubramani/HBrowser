@@ -36,6 +36,20 @@
         background-color: #0088cc;
       }
 
+        /* For blocking the screen */
+      #overlay {
+          position:fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-color:#000;
+          opacity: .75;
+          z-index: 9999999;
+          text-align: center;
+          font: bold 55px/200px Helvetica, Sans-Serif;
+      }      
+
       @media (max-width: 980px) {
         /* Enable use of floated navbar text */
         .navbar-text.pull-right {
@@ -206,5 +220,5 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->        
-
+<div id="overlay" style="display:none;">Loading ...</div>
 </body></html>
