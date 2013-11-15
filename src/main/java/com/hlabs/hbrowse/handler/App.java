@@ -179,6 +179,15 @@ public class App {
             }
         });
 
+        post(new Route("/deleteRec") {
+            @Override
+            public Object handle(Request request, Response response) {
+                String data = request.queryParams("data");
+
+                return HBaseController.delete_rec(data);
+            }
+        });
+
     }
 
 

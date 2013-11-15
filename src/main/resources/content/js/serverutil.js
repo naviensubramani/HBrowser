@@ -105,9 +105,9 @@ function scanColumnFamily(dataObj)
     $( "#dataTable" ).append( "<thead><tr> <th>Row Key</th><th>Column + Cell</th></tr></thead>" );
 	for (i = 0; i < keys.length; i++)
 	{
-	    k = keys[i];
-	    var value = JSON.stringify(rows[k]);
-	    $( "#dataTable" ).append( "<tr><td>"+k+"</td><td>"+value+"</td></tr>" );
+	    Rowkey = keys[i];
+	    var Rowvalue = JSON.stringify(rows[Rowkey]);
+	    $( "#dataTable" ).append( "<tr><td>"+Rowkey+"</td><td>"+Rowvalue+"</td><td><span onclick='drop_row(this)' id='"+Rowkey+"' class='label label-important' onmouseover='' style='cursor: pointer;'><i class='fa fa-trash-o'></i></span></td></tr>" );
 	}
   });
 
@@ -129,6 +129,25 @@ function insert_into_table(dataObj)
    $("#close").click();
    alert(data);
    });
+
+}
+
+// Drop Row key
+function delete_record(dataObj)
+{
+  // Open the full wait screen
+  $("#overlay").show();  
+   $.post("/deleteRec",
+  {
+    data: JSON.stringify(dataObj)
+  },
+  function(data,status){
+    console.log(status);
+    alert("Data: " + data + "\nStatus: " + status);
+    scanColumnFamily(dataObj);
+    // close the full wait screen
+    $("#overlay").hide();        
+  });
 
 }
 
@@ -165,6 +184,7 @@ function get_cols(obj){
 }
 
 
+// Drop The selected table
 function drop_me(obj){
   console.log("Drop Table");
   console.log((obj.parentNode).id);
@@ -173,6 +193,24 @@ if (confirm('Are you sure you want to Drop the database?')) {
     var cfobj = {};
     cfobj['table_name'] = (obj.parentNode).id;
     drop_table(cfobj);        
+
+} else {
+    // Do nothing!
+};  
+
+}
+
+// Drop the selected Rowkey
+function drop_row(obj){
+  console.log("Drop row key");
+  console.log(obj.id);
+if (confirm('Are you sure you want to Drop?')) {
+    // Drop it!
+    var cfobj = {};
+    cfobj['table_name'] = $("#tblName li.active a").text();
+    cfobj['column_family'] = $("#sc_cf").val();
+    cfobj['row_key'] = obj.id;
+    delete_record(cfobj);        
 
 } else {
     // Do nothing!

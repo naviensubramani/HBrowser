@@ -7,6 +7,8 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HBaseTableScanner {
 
@@ -68,6 +70,19 @@ public class HBaseTableScanner {
         put.add(Bytes.toBytes(coln_family), Bytes.toBytes(coln_qualifier), Bytes.toBytes(coln_value));
         table.put(put);
         table.close();
+    }
+
+    /**
+     * Delete a row
+     */
+    public static void delRecord(String tableName, String rowKey)
+            throws IOException {
+        HTable table = new HTable(HBaseManager.hbaseConf,tableName);
+        List<Delete> list = new ArrayList<Delete>();
+        Delete del = new Delete(rowKey.getBytes());
+        list.add(del);
+        table.delete(list);
+        System.out.println("del recored " + rowKey + " ok.");
     }
 
 

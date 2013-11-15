@@ -52,6 +52,20 @@ public class HBaseController {
 		return "Sucessfully Inserted into table "+tableName;
 	}
 
+    public static String delete_rec(String data){
+        System.out.println("delete record");
+        String tableName = HBaseController.get_Value(data,"table_name").toString();
+        String rowKey = HBaseController.get_Value(data,"row_key").toString();
+        try {
+            HBaseTableScanner.delRecord(tableName,rowKey);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return "Unable to delete record";
+        }
+        return "Sucessfully deleted "+rowKey;
+    }
+
 	public static String drop(String data){
 		System.out.println("drop tbl");
 		String tableName = HBaseController.get_Value(data,"table_name").toString();
