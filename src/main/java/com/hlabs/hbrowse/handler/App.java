@@ -39,7 +39,7 @@ public class App {
     public App (String[] args) throws IOException {
         cfg = createFreemarkerConfiguration();
         staticFileLocation("content");
-        int serverPort = 8082;
+        int serverPort = 8080;
         if (args.length > 0) {
             try {
                 serverPort = Integer.parseInt(args[0]);

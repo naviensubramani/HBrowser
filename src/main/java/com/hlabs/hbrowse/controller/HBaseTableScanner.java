@@ -57,17 +57,17 @@ public class HBaseTableScanner {
 
 	}
 
-	public static void insert_into_Table(String tableName, String coln_family, String coln_qualifier, String row_key, String coln_value) throws IOException{
+	public static void addRecord(String tableName, String family, String qualifier, String rowKey, String value) throws IOException{
 
         HTable table = new HTable(HBaseManager.hbaseConf,tableName);
 
         //Check whether the Column name is present
-        if (!table.getTableDescriptor().hasFamily(Bytes.toBytes(coln_family)) ){
-            System.out.println(coln_family + "(ColumnFamily) is not available in Table:" + tableName);
+        if (!table.getTableDescriptor().hasFamily(Bytes.toBytes(family)) ){
+            System.out.println(family + "(ColumnFamily) is not available in Table:" + tableName);
         }
 
-        Put put = new Put(Bytes.toBytes(row_key));
-        put.add(Bytes.toBytes(coln_family), Bytes.toBytes(coln_qualifier), Bytes.toBytes(coln_value));
+        Put put = new Put(Bytes.toBytes(rowKey));
+        put.add(Bytes.toBytes(family), Bytes.toBytes(qualifier), Bytes.toBytes(value));
         table.put(put);
         table.close();
     }

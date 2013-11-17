@@ -43,7 +43,7 @@ public class HBaseController {
 		String RowValue = HBaseController.get_Value(data,"column_value").toString();
 
 		try {
-			HBaseTableScanner.insert_into_Table(tableName,columnFamily,columnQualifier,RowKey,RowValue);
+			HBaseTableScanner.addRecord(tableName, columnFamily, columnQualifier, RowKey, RowValue);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
