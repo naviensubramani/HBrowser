@@ -11,6 +11,7 @@
     <link href="css/bootstrap-responsive.css" rel="stylesheet"></link>
     <script src="js/client.js" type="text/javascript"></script>  
     <script src="js/serverutil.js" type="text/javascript"></script>  
+    <script src="js/util.js" type="text/javascript"></script> 
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 </head>
@@ -210,11 +211,16 @@
           <h4 class="modal-title">Insert Row</h4>
         </div>
         <div class="modal-body">
-                        <div>Column Qualifier : <input type="text" id="insert_cq"/></div>
-                        <div>Row Key : <input type="text" id="insert_rowkey"/></div>
-                        <div>Row Value : <input type="text" id="insert_rowvalue"/></div>
-                      </div>
+            <!--Content for adding multiple rows-->
+            <table class="items-list">
+                <tr><td><input type="text" readonly="true" placeholder="Column Family"/></td><td><input type="text" id="insert_cq" placeholder="Column Qualifier"/></td></tr>
+                <tr><td><input type="text" name="cq_1" placeholder="Row Key" /></td><td><input type="text" name="value_1" placeholder="Value"/></td><td></td></tr>
+            </table>
+            <a href="#" title="" class="add-item">Add</a>
+            </div>
+
         <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" id="insert">Insert</button>
         </div>
       </div><!-- /.modal-content -->
