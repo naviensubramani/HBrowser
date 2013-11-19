@@ -127,6 +127,7 @@ function insert_into_table(dataObj)
    console.log(status);
    $("#insert").button('reset');
    $("#close").click();
+   $("#insert_table").empty();
    alert(data);
    });
 

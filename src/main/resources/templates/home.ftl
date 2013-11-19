@@ -119,7 +119,7 @@
                       </div>                      
                       <div style="display: inline-block; vertical-align: top;">
                         <button class="btn btn-primary" id="scan" >Scan</button>
-                        <a data-toggle="modal" href="#insertModal" class="btn btn-success btn-lg" >Insert</a>
+                        <a data-toggle="modal" href="#insertModal" id="insert_screen" class="btn btn-success btn-lg" >Insert</a>
                       </div>
                       <!--/form-->
                   </div>
@@ -213,8 +213,8 @@
         <div class="modal-body">
             <!--Content for adding multiple rows-->
             <table class="items-list" id="insert_table">
-                <tr><td><input type="text" readonly="true" placeholder="Column Family"/></td><td><input type="text" id="row_key" placeholder="Row Key"/></td></tr>
-                <tr><td><input type="text" name="qualifier_1" id="qualifier_1" placeholder="Column Qualifier" /></td><td><input type="text" name="value_1" id="value_1" placeholder="Value"/></td><td></td></tr>
+                <tr id="insert_table1"><td><input type="text" id="coln_fam" readonly="true" placeholder="Column Family"/></td><td><input type="text" id="row_key" placeholder="Row Key"/></td></tr>
+                <tr id="insert_table2"><td><input type="text" name="qualifier_1" id="qualifier_1" placeholder="Column Qualifier" /></td><td><input type="text" name="value_1" id="value_1" placeholder="Value"/></td><td></td></tr>
             </table>
             <a href="#" title="" class="add-item">Add</a>
             </div>
