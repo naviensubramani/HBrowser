@@ -6,17 +6,16 @@
  * To change this template use File | Settings | File Templates.
  */
     $(document).ready(function(){
-
         var counter = 1;
+
         jQuery('a.add-item').click(function(event){
             event.preventDefault();
             counter++;
             var newRow = jQuery('<tr><td><input type="text" placeholder="Column Qualifier" name="qualifier_' +
-                counter + '"/></td><td><input type="text" placeholder="Value" name="value_' +
-                counter + '"/></td><td><span onclick="deleteme(this)" onmouseover="" style="cursor: pointer;vertical-align: 10px;"><i class="fa fa-trash-o fa-lg"></i></span></td></tr>');
+                counter + '" id="qualifier_'+counter+'"/></td><td><input type="text" placeholder="Value" name="value_' +
+                counter + '" id="value_'+counter+'"/></td><td><span onclick="deleteme(this)" onmouseover="" style="cursor: pointer;vertical-align: 10px;"><i class="fa fa-trash-o fa-lg"></i></span></td></tr>');
             jQuery('table.items-list').append(newRow);
         });
-
   });
 
 function deleteme(obj){

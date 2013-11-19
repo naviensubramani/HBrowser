@@ -117,7 +117,7 @@ function scanColumnFamily(dataObj)
 function insert_into_table(dataObj)
 {
   console.log(JSON.stringify(dataObj));
-  $("#insert").button('loading');
+  $("#insert").button('loading...');
 
    $.post("/insertTable",
    {

@@ -194,7 +194,7 @@
           </div>         
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="close_settings">Close</button>
           <button class="btn btn-warning" id="clear_config" >Clear</button>          
           <button class="btn btn-success" id="save" >Save</button>
         </div>
@@ -212,9 +212,9 @@
         </div>
         <div class="modal-body">
             <!--Content for adding multiple rows-->
-            <table class="items-list">
+            <table class="items-list" id="insert_table">
                 <tr><td><input type="text" readonly="true" placeholder="Column Family"/></td><td><input type="text" id="row_key" placeholder="Row Key"/></td></tr>
-                <tr><td><input type="text" name="qualifier_1" placeholder="Column Qualifier" /></td><td><input type="text" name="value_1" placeholder="Value"/></td><td></td></tr>
+                <tr><td><input type="text" name="qualifier_1" id="qualifier_1" placeholder="Column Qualifier" /></td><td><input type="text" name="value_1" id="value_1" placeholder="Value"/></td><td></td></tr>
             </table>
             <a href="#" title="" class="add-item">Add</a>
             </div>
