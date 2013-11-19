@@ -213,8 +213,8 @@
         <div class="modal-body">
             <!--Content for adding multiple rows-->
             <table class="items-list">
-                <tr><td><input type="text" readonly="true" placeholder="Column Family"/></td><td><input type="text" id="insert_cq" placeholder="Column Qualifier"/></td></tr>
-                <tr><td><input type="text" name="cq_1" placeholder="Row Key" /></td><td><input type="text" name="value_1" placeholder="Value"/></td><td></td></tr>
+                <tr><td><input type="text" readonly="true" placeholder="Column Family"/></td><td><input type="text" id="row_key" placeholder="Row Key"/></td></tr>
+                <tr><td><input type="text" name="qualifier_1" placeholder="Column Qualifier" /></td><td><input type="text" name="value_1" placeholder="Value"/></td><td></td></tr>
             </table>
             <a href="#" title="" class="add-item">Add</a>
             </div>
