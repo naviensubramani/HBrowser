@@ -1,11 +1,19 @@
 package com.hlabs.hbrowse.controller;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class HBaseController {
 
@@ -38,9 +46,35 @@ public class HBaseController {
 		System.out.println("Insert in to tbl");
 		String tableName = HBaseController.get_Value(data,"table_name").toString();
 		String columnFamily = HBaseController.get_Value(data,"column_family").toString();
-		String columnQualifier = HBaseController.get_Value(data,"column_qualifier").toString();
 		String RowKey = HBaseController.get_Value(data,"row_key").toString();
-		String RowValue = HBaseController.get_Value(data,"column_value").toString();
+		data = HBaseController.get_Value(data,"values").toString();
+		
+		System.out.println(tableName + ":" + columnFamily + ":" + RowKey + ":" + data);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		ObjectMapper om = new ObjectMapper();
+		
+		try {
+			map = om.readValue(data, new TypeReference<Map<String, String>>(){});
+			System.out.println(map);
+		} catch (JsonParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int i=0;
+		String[] columnQualifier = new String[map.size()];
+		String[] RowValue = new String[map.size()];
+		for(Entry<String, String> e : map.entrySet()){
+			columnQualifier[i] = e.getKey();
+			RowValue[i] = e.getValue();
+			i++;
+		}
 
 		try {
 			HBaseTableScanner.addRecord(tableName, columnFamily, columnQualifier, RowKey, RowValue);

@@ -46,6 +46,22 @@
           $("#TextBoxDiv" + counter).remove();
     });
 
+	  function get_insert_values()
+	  {
+	  	var RowCount = $("#insert_table tr").length;
+	  	var columnF_vals = [];
+		var obj = {};
+		var obj1 = {};
+		obj['table_name'] = $("#tblName li.active a").text();
+    	obj['column_family'] = $("#sc_cf").val();
+    	obj['row_key'] = $("#row_key").val();
+
+      	for(i=1; i<RowCount; i++){
+        	obj1[$('#qualifier_' + i).val()] = $('#value_' + i).val();;
+      	}
+    	obj['values'] = obj1;
+        insert_into_table(obj);
+	  }
 
       function get_form_values()
       {
@@ -111,13 +127,7 @@
   });
 
   $("#insert").click(function(){
-      var cfobj = {};
-      cfobj['table_name'] = $("#tblName li.active a").text();
-      cfobj['column_family'] = $("#sc_cf").val();
-      cfobj['column_qualifier'] = $("#insert_cq").val();
-      cfobj['row_key'] = $("#insert_rowkey").val();
-      cfobj['column_value'] = $("#insert_rowvalue").val();
-      insert_into_table(cfobj);
+  	  get_insert_values();
   });
 
 
@@ -136,7 +146,8 @@
     var retrievedObject = localStorage.getItem('conn_config');
     console.log('retrievedObject: ', JSON.parse(retrievedObject)); 
     cfobj['conn'] = get_config();
-    initilize(cfobj);    
+    initilize(cfobj);
+    $("#close_settings").click();
   }); 
 
   $("#drop").click(function(){

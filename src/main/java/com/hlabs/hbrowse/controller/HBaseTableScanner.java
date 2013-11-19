@@ -57,7 +57,7 @@ public class HBaseTableScanner {
 
 	}
 
-	public static void addRecord(String tableName, String family, String qualifier, String rowKey, String value) throws IOException{
+	public static void addRecord(String tableName, String family, String[] qualifier, String rowKey, String[] value) throws IOException{
 
         HTable table = new HTable(HBaseManager.hbaseConf,tableName);
 
@@ -67,7 +67,9 @@ public class HBaseTableScanner {
         }
 
         Put put = new Put(Bytes.toBytes(rowKey));
-        put.add(Bytes.toBytes(family), Bytes.toBytes(qualifier), Bytes.toBytes(value));
+        for(int i=0; i<value.length; i++){
+        	put.add(Bytes.toBytes(family), Bytes.toBytes(qualifier[i]), Bytes.toBytes(value[i]));
+        }
         table.put(put);
         table.close();
     }
