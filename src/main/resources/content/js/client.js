@@ -61,7 +61,8 @@
       	}
     	obj['values'] = obj1;
         insert_into_table(obj);
-	  }
+	}
+	  
 
       function get_form_values()
       {
@@ -118,15 +119,21 @@
   $("#scan").click(function(){
     var cfobj = {};
     cfobj['table_name'] = $("#tblName li.active a").text();
-    cfobj['column_family'] = $("#sc_cf").val()
+    cfobj['column_family'] = $("#sc_cf").val();
     scanColumnFamily(cfobj);
   });
   
   $("#close").click(function(){
     $("#scan").click();
   });
+  
+  $("#insert_screen").click(function(){
+	  $("#coln_fam").val($("#sc_cf").val());
+  });
 
   $("#insert").click(function(){
+  	  var temp = $("#sc_cf").val();
+	  $("#coln_fam").val(temp);
   	  get_insert_values();
   });
 
