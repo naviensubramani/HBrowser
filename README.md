@@ -12,7 +12,7 @@ download  and install maven apache-maven-3.1.0-bin.tar.gz .
 
 Run 
 ============
->```$ git clone https://github.com/naviensubramani/HBrowser.git```
+>```$ git clone https://github.com/naviens/HBrowser.git```
 
 >```$ cd HBrowser```
 
